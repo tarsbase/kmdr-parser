@@ -1,0 +1,24 @@
+name: kmdr
+summary: El cliente CLI para explicar comandos en la terminal
+link: https://kmdr.sh/
+version: "0.1.30"
+locale: es
+options:
+  - short:
+      - "-l"
+    long:
+      - "--language"
+    summary: Configura el lenguage
+    expectsArg: true
+  - short:
+      - "-h"
+    summary: Muestra la ayuda
+subcommands:
+  - name: explain
+    summary: Explica un comando
+    aliases:
+      - e
+  - name: config
+    summary: Configura kmdr en este sistema
+    aliases:
+      - c

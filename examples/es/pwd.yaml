@@ -1,0 +1,19 @@
+name: pwd
+summary: Imprime el nombre del directorio de trabajo actual
+stickyOptions: false
+locale: es
+options:
+  - long:
+      - "--logical"
+    short:
+      - "-L"
+    summary: Mostrar el directorio de trabajo lógico actual
+  - long:
+      - "--physical"
+    short:
+      - "-P"
+    summary: Mostrar el directorio de trabajo físico actual (todos los enlaces simbólicos resueltos).
+  - long:
+      - "--help"
+    short: []
+    summary: "Mostrar la ayuda y salir"

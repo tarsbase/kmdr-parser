@@ -1,0 +1,50 @@
+name: rm
+summary: Remove files or directories
+stickyOptions: true
+description: This manual page documents the GNU version of rm. rm removes each specified file. By default, it does not remove directories.
+locale: en
+options:
+  - long: ["--force"]
+    short: ["-f"]
+    summary: Ignore nonexistent files and arguments, never prompt.
+  - short: ["-i"]
+    summary: Prompt before every removal.
+    description: ""
+  - short: ["-I"]
+    summary: Prompt once before removing more than three files, or when removing recursively.
+    description:
+      Prompt once before removing more than three files, or when removing
+      recursively. Less intrusive than -i, while still giving protection against most
+      mistakes.
+  - long: ["--interactive"]
+    summary:
+      "Prompt according to WHEN: never, once (-I), or always (-i); without WHEN,
+      prompt always"
+    expectsArg: true
+    description: ""
+  - long: ["--one-file-system"]
+    summary: When removing a hierarchy recursively, skip any directory.
+    description: When removing a hierarchy recursively, skip any directory that is on a file system different from that of the corresponding command line argument
+  - long: ["--no-preserve-root"]
+    summary: Do not treat '/' specially
+  - long: ["--preserve-root"]
+    summary: Do not remove '/' (default)
+  - long: ["--recursive"]
+    short: ["-r", "-R"]
+    summary: Remove directories and their contents recursively
+  - long:
+      - "--dir"
+    short:
+      - "-d"
+    summary: Remove empty directories
+  - long:
+      - "--verbose"
+    short:
+      - "-v"
+    summary: Explain what is being done
+  - long:
+      - "--help"
+    summary: Display this help and exit
+  - long:
+      - "--version"
+    summary: Output version information and exit

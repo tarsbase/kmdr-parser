@@ -1,0 +1,20 @@
+name: pwd
+summary: print name of current/working directory
+stickyOptions: false
+description: Print name of current/working directory.
+locale: en
+options:
+  - long:
+      - "--logical"
+    short:
+      - "-L"
+    summary: Use PWD from environment, even if it contains symlinks
+  - long:
+      - "--physical"
+    short:
+      - "-P"
+    summary: avoid all symlinks
+  - long:
+      - "--help"
+    short: []
+    summary: "--help display this help and exit"

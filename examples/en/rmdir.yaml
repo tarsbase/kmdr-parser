@@ -1,0 +1,21 @@
+name: rmdir
+summary: Remove empty directories
+stickyOptions: false
+locale: en
+options:
+  - long: ["--ignore-fail-on-non-empty"]
+    summary: Ignore each failure that is solely because a directory is non-empty
+    expectsArg: false
+    description:
+      "--ignore-fail-on-non-empty, ignore each failure that is solely because
+      a directory, is non-empty"
+  - long: ["--parents"]
+    short: ["-p"]
+    summary: Remove DIRECTORY and its ancestors; e.g., 'rmdir -p a/b/c' is similar to 'rmdir a/b/c a/b a'
+  - long: ["--verbose"]
+    short: ["-v"]
+    summary: Output a diagnostic for every directory processed
+  - long: ["--help"]
+    summary: Display this help and exit
+  - long: ["--version"]
+    summary: Output version information and exit
