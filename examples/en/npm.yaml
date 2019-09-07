@@ -1,0 +1,187 @@
+---
+name: npm
+summary: Javascript package manager
+stickyOptions: false
+link: "https://docs.npmjs.com/cli/npm.html"
+locale: en
+options:
+  - long:
+      - "--version"
+    summary: display version information
+subcommands:
+  - name: adduser
+    summary: Add a registry user account
+    description:
+      Create or verify a user named <username> in the specified registry,
+      and save the credentials to the .npmrc file. If no registry is specified, the
+      default registry will be used (see npm-config).
+    stickyOptions: false
+    options:
+      - long:
+          - "--registry"
+        summary:
+          The base URL of the npm package registry. If scope is also specified,
+          this registry will only be used for packages with that scope.
+        expectsArg: true
+      - long:
+          - "--scope"
+        summary:
+          If specified, the user and login credentials given will be associated
+          with the specified scope.
+        expectsArg: true
+      - long:
+          - "--always-auth"
+        summary:
+          Save configuration indicating that all requests to the given registry
+          should include authorization information. Useful for private registries.
+      - long:
+          - "--auth-type"
+        summary:
+          What authentication strategy to use with adduser/login. Some npm registries
+          (for example, npmE) might support alternative auth strategies besides classic
+          username/password entry in legacy npm.
+        expectsArg: true
+  - subcommands:
+      - name: fix
+        summary: Make npm automatically fix the vulnerabilities
+        options:
+          - summary:
+              Have audit fix install semver-major updates to toplevel dependencies,
+              not just semver-compatible ones
+            long:
+              - "--force"
+          - summary:
+              Run audit fix without modifying node_modules, but still updating the
+              pkglock
+            _path:
+              - npm
+              - audit
+              - fix
+            long:
+              - "--package-lock-only"
+          - summary: Do a dry run to get an idea of what audit fix will do.
+            long:
+              - "--dry-run"
+          - summary: Audit only dev or prod dependencies
+            long:
+              - "--only"
+            expectsArg: true
+    name: audit
+    summary: Run a security audit
+  - name: bin
+    summary: Display npm bin folder
+    stickyOptions: false
+  - name: build
+    summary: Build a package
+  - name: completion
+    summary: Tab Completion for npm
+  - name: config
+    summary: Manage the npm configuration files
+  - name: deprecate
+    summary: Deprecate a version of a package
+  - name: dist-tag
+    summary: Modify package distribution tags
+  - name: link
+    summary: Symlink a package folder
+  - name: ls
+    summary: List installed packages
+    description:
+      This command will print to stdout all the versions of packages that
+      are installed, as well as their dependencies, in a tree-structure.
+  - name: install
+    summary: Install a package
+    options:
+      - long:
+          - "--save-prod"
+        short:
+          - "-P"
+        summary:
+          Package will appear in your dependencies. This is the default unless
+          `-D` or `-O` are present
+      - long:
+          - "--save-dev"
+        short:
+          - "-D"
+        summary: Package will appear in your devDependencies
+      - long:
+          - "--save-optional"
+        short:
+          - "-O"
+        summary: Package will appear in your optionalDependencies.
+      - long:
+          - "--no-save"
+        short: []
+        summary: Prevents saving to dependencies
+      - long:
+          - "--save-exact"
+        short:
+          - "-E"
+        summary:
+          Saved dependencies will be configured with an exact version rather than
+          using npm´s default semver range operator.
+      - long:
+          - "--save-bundle"
+        short:
+          - "-B"
+        summary: Saved dependencies will also be added to your bundleDependencies list.
+      - long:
+          - "--global"
+        short:
+          - "-g"
+        summary: Argument will cause npm to install the package globally rather than locally.
+  - name: publish
+    summary: Publish a package
+    description:
+      Publishes a package to the registry so that it can be installed by
+      name. All files in the package directory are included if no local .gitignore or
+      .npmignore file exists.
+    options:
+      - long:
+          - "--tag"
+        summary:
+          Registers the published package with the given tag, such that `npm install
+          @` will install this version.
+        expectsArg: true
+      - long:
+          - "--access"
+        summary:
+          Tells the registry whether this package should be published as public
+          or restricted.
+        expectsArg: true
+        description:
+          Tells the registry whether this package should be published as public
+          or restricted. Only applies to scoped packages, which default to restricted.
+          If you don’t have a paid account, you must publish with --access public to publish
+          scoped packages.
+      - long:
+          - "--otp"
+        summary:
+          If you have two-factor authentication enabled in auth-and-writes mode
+          then you can provide a code from your authenticator with this.
+        expectsArg: true
+      - long:
+          - "--dry-run"
+        summary:
+          As of npm@6, does everything publish would do except actually publishing
+          to the registry. Reports the details of what would have been published.
+  - name: uninstall
+    summary: Remove a package
+    options:
+      - long:
+          - "--save"
+        short:
+          - "-S"
+        summary: Package will be removed from your dependencies.
+      - long:
+          - "--save-dev"
+        short:
+          - "-D"
+        summary: Package will be removed from your devDependencies.
+      - long:
+          - "--save-optional"
+        short:
+          - "-O"
+        summary: Package will be removed from your optionalDependencies.
+      - long:
+          - "--no-save"
+        summary: Package will not be removed from your package.json file.
