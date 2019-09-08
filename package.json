@@ -1,0 +1,54 @@
+{
+  "name": "kmdr-parser",
+  "version": "1.0.0",
+  "description": "The parser for kmdr specs in YAML or JSON format",
+  "main": "dist/index.js",
+  "repository": "https://github.com/ediardo/kmdr-parser.git",
+  "author": "djedir@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^3.13.1",
+    "validator": "^11.1.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --verbose"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/js-yaml": "^3.12.1",
+    "@types/validator": "^10.11.3",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.19.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.6.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "testPathIgnorePatterns": [
+      "dist/",
+      "tests/schemas/"
+    ],
+    "testRegex": "tests/.*\\.(ts|tsx|js)$",
+    "testEnvironment": "node",
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "ignoreCodes": [
+            2345
+          ]
+        }
+      }
+    }
+  }
+}

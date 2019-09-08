@@ -1,0 +1,1 @@
+{"version":3,"file":"optionSchemaError.js","sourceRoot":"","sources":["../../../src/errors/optionSchemaError.ts"],"names":[],"mappings":";;AAAA,MAAM,iBAAkB,SAAQ,KAAK;IACnC,YAAY,OAAY;QACtB,KAAK,CAAC,OAAO,CAAC,CAAC;QACf,IAAI,CAAC,IAAI,GAAG,mBAAmB,CAAC;IAClC,CAAC;CACF;AAED,kBAAe,iBAAiB,CAAC"}
