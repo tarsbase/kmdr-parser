@@ -6,9 +6,48 @@
   <img src="kmdr.yaml.png">
 </p>
 
-Every program explained by kmdr has a schema with key-value pairs defining the properties of commands. There are three sets of key-value pairs which make up a schema: program, subcommand, and option. Some programs do not have subcommands or/nor options.
+## Installation
+
+### With `npm`
+
+```bash
+npm install kmdr-parser
+```
+
+### With `yarn`
+
+```bash
+yarn add kmdr-parser
+```
+
+## Usage
+
+### CLI
+
+```bash
+$ kmdr-parser --file kmdr.yaml
+```
+
+### API
+
+```js
+import Schema from "kmdr-parser";
+
+const schema = {
+  name: "kmdr",
+  summary: "The CLI tool for explaining shell commands from your terminal"
+};
+
+try {
+  const kmdrSchema = new Schema(schema);
+} catch (err) {
+  console.error(err);
+}
+```
 
 ## Schema
+
+Every program explained by kmdr has a schema with key-value pairs defining the properties of commands.
 
 | Key             | Definition                                                                | Required | Type            | Default |
 | --------------- | ------------------------------------------------------------------------- | -------- | --------------- | ------- |
@@ -21,7 +60,8 @@ Every program explained by kmdr has a schema with key-value pairs defining the p
 | `options`       | The options available in the program                                      | No       | `options[]`     | `[]`    |
 | `link`          | Link to the program's page                                                | No       | `string`        |         |
 | `stickyOptions` | Whether the program accepts sticky options (e.g. `-rf` for `-r` and `-f`) | No       | `boolean`       | false   |
-| `environment`   | Environment variables picked up by the program                            | No       | `envVars[]`     | `[]`    |
+| `environment`   | Environment variables picked up by the program                            | No       | `environment[]` | `[]`    |
+| `examples`      |                                                                           | Non      | `examples[]`    | `[]`    |
 
 ### Option Object
 
