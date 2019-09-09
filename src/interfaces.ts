@@ -25,7 +25,7 @@ export interface SubcommandSchema {
   patterns?: string[];
   stickyOptions?: boolean;
   subcommands?: SubcommandSchema[];
-  summary?: string;
+  summary: string;
 }
 
 export interface EnvironmentSchema {
