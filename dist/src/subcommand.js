@@ -6,17 +6,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const option_1 = __importDefault(require("./option"));
 const schemaValidator_1 = __importDefault(require("./schemaValidator"));
 const ERROR_MESSAGES = {
-    SUBCOMMAND_NAME_EMPTY: 'Subcommand schema name cannot be empty',
-    SUBCOMMAND_NAME_INCOMPATIBLE_CHARACTERS: 'Subcommand schema name contains incompatible characters',
-    SUBCOMMAND_SUMMARY_EMPTY: 'Subcommand schema summary cannot be empty',
-    SUBCOMMAND_ALIASES_INVALID: 'Subcommand aliases must be an array of strings',
-    SUBCOMMAND_STICKY_OPTIONS_INVALID: 'Subcommand schema stickyOptions must be a boolean value',
+    SUBCOMMAND_NAME_EMPTY: "Subcommand schema name cannot be empty",
+    SUBCOMMAND_NAME_INCOMPATIBLE_CHARACTERS: "Subcommand schema name contains incompatible characters",
+    SUBCOMMAND_SUMMARY_EMPTY: "Subcommand schema summary cannot be empty",
+    SUBCOMMAND_ALIASES_INVALID: "Subcommand aliases must be an array of strings",
+    SUBCOMMAND_STICKY_OPTIONS_INVALID: "Subcommand schema stickyOptions must be a boolean value"
 };
 class Subcommand extends schemaValidator_1.default {
     constructor(subcommand, path = null, props = { stickyOptions: false }) {
         super();
-        this.name = '';
-        this.summary = '';
+        this.name = "";
+        this.summary = "";
         const { name, summary, aliases, description, subcommands, options, patterns, _path } = subcommand;
         const { stickyOptions } = props;
         if (!name || this.isEmpty(name)) {
@@ -44,7 +44,7 @@ class Subcommand extends schemaValidator_1.default {
             this.summary = summary;
         }
         if (!description) {
-            this.description = '';
+            this.description = "";
         }
         else {
             this.description = description.trim();
@@ -70,7 +70,7 @@ class Subcommand extends schemaValidator_1.default {
             this.subcommands = [];
         }
         else {
-            this.subcommands = subcommands.map(subcommand => new Subcommand(subcommand, this._path, { ...props }));
+            this.subcommands = subcommands.map(subcommand => new Subcommand(subcommand, this._path, Object.assign({}, props)));
         }
         if (!options) {
             this.options = [];

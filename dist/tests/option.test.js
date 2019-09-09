@@ -3,82 +3,101 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const option_1 = __importDefault(require("../../src/schema/option"));
-describe('An Option Schema cannot be created when', () => {
-    test('the summary key is empty', () => {
+const option_1 = __importDefault(require("../src/option"));
+describe("An Option Schema cannot be created when", () => {
+    test("the summary key is empty", () => {
         expect(() => {
-            const newOption = new option_1.default({ name: 'test', summary: '          ' });
+            const newOption = new option_1.default({
+                name: "test",
+                summary: "          "
+            });
         }).toThrow(/Property 'summary' missing from/);
     });
-    test('long and short options are missing', () => {
+    test("long and short options are missing", () => {
         expect(() => {
-            const newOption = new option_1.default({ name: 'test', summary: 'short summary' });
+            const newOption = new option_1.default({
+                name: "test",
+                summary: "short summary"
+            });
         }).toThrow(/must have either a long or short option/);
     });
-    test('short contains a value that is not a list of string', () => {
+    test("short contains a value that is not a list of string", () => {
         expect(() => {
-            const newOption = new option_1.default({ name: 'test', summary: 'soemthing', short: '-f' });
+            const newOption = new option_1.default({
+                name: "test",
+                summary: "soemthing",
+                short: "-f"
+            });
         }).toThrow(/long or short must be a list of string/);
     });
-    test('long contains a value that is not a list of strings', () => {
+    test("long contains a value that is not a list of strings", () => {
         expect(() => {
-            const newOption = new option_1.default({ name: 'test', summary: 'something', long: 123 });
+            const newOption = new option_1.default({
+                name: "test",
+                summary: "something",
+                long: 123
+            });
         }).toThrow(/long or short must be a list of string/);
     });
-    test('short is valid but long is invalid', () => {
+    test("short is valid but long is invalid", () => {
         expect(() => {
             const newOption = new option_1.default({
                 long: false,
-                name: 'test',
-                short: ['-f'],
-                summary: 'a test',
+                name: "test",
+                short: ["-f"],
+                summary: "a test"
             });
         }).toThrow();
     });
-    test('long is valid but short is invalid', () => {
+    test("long is valid but short is invalid", () => {
         expect(() => {
             const newOption = new option_1.default({
-                long: ['--something'],
-                name: 'name',
+                long: ["--something"],
+                name: "name",
                 short: 12,
-                summary: 'summary',
+                summary: "summary"
             });
         }).toThrow();
     });
-    test('expectsArg contains a non-boolean value', () => {
+    test("expectsArg contains a non-boolean value", () => {
         expect(() => {
             const newOption = new option_1.default({
-                expectsArg: '',
-                name: 'name',
-                short: ['-a'],
-                summary: 'summary',
+                expectsArg: "",
+                name: "name",
+                short: ["-a"],
+                summary: "summary"
             });
         }).toThrow(/expectsArg must be a boolean value/);
     });
-    test('description contains a value that is not a string', () => {
+    test("description contains a value that is not a string", () => {
         expect(() => {
             const newOption = new option_1.default({
                 description: [1, 2, 3],
-                name: 'name',
-                short: ['-a'],
-                summary: 'summary',
+                name: "name",
+                short: ["-a"],
+                summary: "summary"
             });
         }).toThrow(/description must be a string/);
     });
 });
-describe('An Option schema is created when', () => {
-    test('at least a short option is provided', () => {
-        const option = { name: 'name', summary: 'summary', short: ['-a'] };
+describe("An Option schema is created when", () => {
+    test("at least a short option is provided", () => {
+        const option = { name: "name", summary: "summary", short: ["-a"] };
         const optionSchema = new option_1.default(option);
         expect(optionSchema).toMatchObject(option);
     });
-    test('at least a long option is provided', () => {
-        const option = { name: 'name', summary: 'summary', long: ['--long'] };
+    test("at least a long option is provided", () => {
+        const option = { name: "name", summary: "summary", long: ["--long"] };
         const optionSchema = new option_1.default(option);
         expect(optionSchema).toMatchObject(option);
     });
-    test('long and short options are provided', () => {
-        const option = { name: 'name', summary: 'summary', long: ['--long'], short: ['-a'] };
+    test("long and short options are provided", () => {
+        const option = {
+            name: "name",
+            summary: "summary",
+            long: ["--long"],
+            short: ["-a"]
+        };
         const optionSchema = new option_1.default(option);
         expect(optionSchema).toMatchObject(option);
     });

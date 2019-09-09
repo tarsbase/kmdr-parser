@@ -3,13 +3,13 @@ import Program from "../src/program";
 describe("A Program Schema cannot be created when", () => {
   test('the name key is not provided, a  "Schema name cannot be empty" error is thrown', () => {
     expect(() => {
-      new Program({ name: "" });
+      new Program({ name: "" } as any);
     }).toThrowError(/name cannot be empty/);
   });
 
   test('the name "wrong Name" contains incompatible characters, a "Schema name can only have letters..." error is thrown', () => {
     expect(() => {
-      new Program({ name: "wrong Name" });
+      new Program({ name: "wrong Name" } as any);
     }).toThrowError(/name can only have letters, digits, ., - and _/);
   });
   test('the summary key is not provided, a "Schema summary cannot be empty" error is thrown', () => {

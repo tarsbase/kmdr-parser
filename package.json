@@ -7,16 +7,23 @@
   "author": "djedir@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "commander": "^3.0.1",
     "js-yaml": "^3.13.1",
     "validator": "^11.1.0"
   },
   "scripts": {
     "build": "tsc",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "cli": "node dist/bin/index.js",
+    "test-coverage": "jest --coverage"
+  },
+  "bin": {
+    "kmdr-parser": "dist/bin/index.js"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/js-yaml": "^3.12.1",
+    "@types/node": "^12.7.4",
     "@types/validator": "^10.11.3",
     "jest": "^24.9.0",
     "prettier": "^1.18.2",
@@ -37,7 +44,8 @@
     },
     "testPathIgnorePatterns": [
       "dist/",
-      "tests/schemas/"
+      "tests/schemas/",
+      "node_modules/"
     ],
     "testRegex": "tests/.*\\.(ts|tsx|js)$",
     "testEnvironment": "node",

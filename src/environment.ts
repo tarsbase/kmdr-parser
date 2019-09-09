@@ -1,8 +1,8 @@
 import { EnvironmentSchema } from "./interfaces";
 
 class Environment implements EnvironmentSchema {
-  protected name: string;
-  protected summary: string;
+  public name: string = "";
+  public summary: string = "";
   protected constructor() {}
 }
 

@@ -1,3 +1,11 @@
 #!/user/bin/env node
 
-import parser from "../parser";
+import Parser from "../";
+import commander from "commander";
+
+commander.option("-f, --file <filename>", "output extra debugging");
+commander.parse(process.argv);
+
+if (commander.file) {
+  const parser = new Parser(commander.file);
+}

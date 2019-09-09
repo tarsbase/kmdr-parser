@@ -10,11 +10,11 @@ class SchemaValidator {
         return validator_1.default.isURL(str);
     }
     isValidName(str) {
-        const nameRegex = new RegExp('^[a-zA-Z0-9-_.]+$');
+        const nameRegex = new RegExp("^[a-zA-Z0-9-_.]+$");
         return nameRegex.test(str);
     }
     isEmpty(str) {
-        return str.trim() === '';
+        return str.trim() === "";
     }
     isListOfStrings(list) {
         if (!Array.isArray(list)) {
@@ -24,10 +24,10 @@ class SchemaValidator {
         if (list.length === 0) {
             return true;
         }
-        return list.some(item => typeof item === 'string');
+        return list.some(item => typeof item === "string");
     }
     isBoolean(val) {
-        return typeof val === 'boolean';
+        return typeof val === "boolean";
     }
 }
 exports.default = SchemaValidator;

@@ -7,23 +7,24 @@ const option_1 = __importDefault(require("./option"));
 const schemaValidator_1 = __importDefault(require("./schemaValidator"));
 const subcommand_1 = __importDefault(require("./subcommand"));
 const ERROR_MESSAGES = {
-    NAME_EMPTY: 'Schema name cannot be empty',
-    NAME_INCOMPATIBLE_CHARACTERS: 'Schema name can only have letters, digits, ., - and _',
-    DESCRIPTION_INVALID: 'Schema description must be a string',
-    SUMMARY_EMPTY: 'Schema summary cannot be empty',
-    LINK_INVALID: 'Schema link is invalid',
-    STICKY_OPTIONS_INVALID: 'Schema stickyOptions must be of type boolean',
-    SUBCOMMANDS_INVALID: 'Schema subcommands must be an array of subcommands',
-    OPTIONS_INVALID: 'Schema options must be an array of options',
+    NAME_EMPTY: "Schema name cannot be empty",
+    NAME_INCOMPATIBLE_CHARACTERS: "Schema name can only have letters, digits, ., - and _",
+    DESCRIPTION_INVALID: "Schema description must be a string",
+    SUMMARY_EMPTY: "Schema summary cannot be empty",
+    LINK_INVALID: "Schema link is invalid",
+    STICKY_OPTIONS_INVALID: "Schema stickyOptions must be of type boolean",
+    SUBCOMMANDS_INVALID: "Schema subcommands must be an array of subcommands",
+    OPTIONS_INVALID: "Schema options must be an array of options"
 };
 class Program extends schemaValidator_1.default {
+    //envVars?: EnvironmentSchema[];
     constructor(program) {
         super();
-        this.name = '';
-        this.summary = '';
+        this.name = "";
+        this.summary = "";
         this.stickyOptions = false;
-        const { name, summary, description, version, locale, args, subcommands, options, link, patterns, stickyOptions, envVars, } = program;
-        if (!name || name.trim() === '') {
+        const { name, summary, description, version, locale, subcommands, options, link, stickyOptions, environment } = program;
+        if (!name || name.trim() === "") {
             const msg = ERROR_MESSAGES.NAME_EMPTY;
             throw new Error(msg);
         }
@@ -34,7 +35,7 @@ class Program extends schemaValidator_1.default {
         else {
             this.name = name.trim();
         }
-        if (!summary || summary.trim() === '') {
+        if (!summary || summary.trim() === "") {
             const msg = ERROR_MESSAGES.SUMMARY_EMPTY;
             throw new Error(msg);
         }
@@ -42,9 +43,9 @@ class Program extends schemaValidator_1.default {
             this.summary = summary;
         }
         if (!description) {
-            this.description = '';
+            this.description = "";
         }
-        else if (typeof description !== 'string') {
+        else if (typeof description !== "string") {
             const msg = ERROR_MESSAGES.DESCRIPTION_INVALID;
             throw new Error(msg);
         }
@@ -52,13 +53,13 @@ class Program extends schemaValidator_1.default {
             this.description = description.trim();
         }
         if (!version) {
-            this.version = '';
+            this.version = "";
         }
         else {
             this.version = version.trim();
         }
         if (!link) {
-            this.link = '';
+            this.link = "";
         }
         else if (!super.isURL(link)) {
             const msg = ERROR_MESSAGES.LINK_INVALID;
@@ -68,7 +69,7 @@ class Program extends schemaValidator_1.default {
             this.link = link.trim();
         }
         if (!locale) {
-            this.locale = 'en';
+            this.locale = "en";
         }
         else {
             this.locale = locale.trim();
@@ -88,7 +89,9 @@ class Program extends schemaValidator_1.default {
             throw new Error(msg);
         }
         else {
-            this.subcommands = subcommands.map(subcommand => new subcommand_1.default(subcommand, [this.name], { stickyOptions: this.stickyOptions }));
+            this.subcommands = subcommands.map(subcommand => new subcommand_1.default(subcommand, [this.name], {
+                stickyOptions: this.stickyOptions
+            }));
         }
         if (!options) {
             this.options = [];
