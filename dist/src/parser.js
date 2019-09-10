@@ -27,17 +27,27 @@ class Parser {
         }
     }
     openJSON(filename) {
-        const fileContents = fs_1.default.readFileSync(filename, "utf8");
-        const json = JSON.parse(fileContents);
+        try {
+            const fileContents = fs_1.default.readFileSync(filename, "utf8");
+            const json = JSON.parse(fileContents);
+            const schema = new schema_1.default(json);
+            console.log(`The schema ${filename} is valid`);
+        }
+        catch (e) {
+            console.error(`The schema ${filename} is invalid`);
+            console.error(e);
+        }
     }
     openYAML(filename) {
         // Get document, or throw exception on error
         try {
             const yamlContents = js_yaml_1.default.safeLoad(fs_1.default.readFileSync(filename, "utf8"));
             const schema = new schema_1.default(yamlContents);
+            console.log(`The schema ${filename} is valid`);
         }
         catch (e) {
-            console.log(e);
+            console.error(`The schema ${filename} is invalid`);
+            console.error(e);
         }
     }
 }

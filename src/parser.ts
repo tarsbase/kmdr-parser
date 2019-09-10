@@ -28,8 +28,15 @@ class Parser {
   }
 
   openJSON(filename: string) {
-    const fileContents = fs.readFileSync(filename, "utf8");
-    const json = JSON.parse(fileContents);
+    try {
+      const fileContents = fs.readFileSync(filename, "utf8");
+      const json = JSON.parse(fileContents);
+      const schema = new Schema(json);
+      console.log(`The schema ${filename} is valid`);
+    } catch (e) {
+      console.error(`The schema ${filename} is invalid`);
+      console.error(e);
+    }
   }
 
   openYAML(filename: string) {
@@ -37,8 +44,10 @@ class Parser {
     try {
       const yamlContents = yaml.safeLoad(fs.readFileSync(filename, "utf8"));
       const schema = new Schema(yamlContents);
+      console.log(`The schema ${filename} is valid`);
     } catch (e) {
-      console.log(e);
+      console.error(`The schema ${filename} is invalid`);
+      console.error(e);
     }
   }
 }
