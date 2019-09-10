@@ -26,6 +26,7 @@ yarn add kmdr-parser
 
 ```bash
 $ kmdr-parser --file kmdr.yaml
+The schema kmdr.yaml is valid
 ```
 
 ### API
@@ -56,14 +57,14 @@ Every program explained by kmdr has a schema with key-value pairs defining the p
 | `description`   | A verbose explanation of what the program does                            | No       | `string`        |         |
 | `version`       | The version of the program used for building this schema                  | No       | `string`        |         |
 | `locale`        | The target language of the schema                                         | No       | `string`        | `"en"`  |
-| `subcommands`   | The subcommands available in the program                                  | No       | `subcommands[]` | `[]`    |
-| `options`       | The options available in the program                                      | No       | `options[]`     | `[]`    |
+| `subcommands`   | The subcommands available in the program                                  | No       | `subcommand[]`  | `[]`    |
+| `options`       | The options available in the program                                      | No       | `option[]`      | `[]`    |
 | `link`          | Link to the program's page                                                | No       | `string`        |         |
 | `stickyOptions` | Whether the program accepts sticky options (e.g. `-rf` for `-r` and `-f`) | No       | `boolean`       | false   |
 | `environment`   | Environment variables picked up by the program                            | No       | `environment[]` | `[]`    |
-| `examples`      |                                                                           | Non      | `examples[]`    | `[]`    |
+| `examples`      |                                                                           | Non      | `example[]`     | `[]`    |
 
-### Option Object
+### The `option` object
 
 | Key           | Definition                                              | Required                  | Type       | Default |
 | ------------- | ------------------------------------------------------- | ------------------------- | ---------- | ------- |
@@ -74,7 +75,7 @@ Every program explained by kmdr has a schema with key-value pairs defining the p
 | `expectsArg`  | Whether the option expects an argument or not           | No                        | `boolean`  | `false` |
 | `defaultArg`  | Default value if argument is missing                    | No                        | `string`   |         |
 
-### Subcommand Object
+### The `subcommand` object
 
 A programs subcommands encapsulate specialized tasks that a program can do. Subcommands usually follow immediately after the program name in a command. Some examples are:
 
@@ -99,9 +100,16 @@ Subcommands have similar key-value pairs to programs. In Table 2.0 we see that t
 | `subcommands` | The subcommands available in the subcommand | No       | `subcommands[]` | `[]`    |
 | `options`     | The options available in the subcommand     | No       | `options[]`     | `[]`    |
 
-### Environment Object
+### The `environment` object
 
 | Key       | Definition                                      | Required | Type     | Default |
 | --------- | ----------------------------------------------- | -------- | -------- | ------- |
 | `name`    | The name of the environment variable            | **Yes**  | `string` |         |
 | `summary` | A short explanation of the environment variable | **Yes**  | `string` |         |
+
+### The `example` object
+
+| Key       | Definition                                   | Required | Type     | Default |
+| --------- | -------------------------------------------- | -------- | -------- | ------- |
+| `command` | The command                                  | **Yes**  | `string` |         |
+| `summary` | A short explanation of what the command does | **Yes**  | `string` |         |
