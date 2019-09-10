@@ -3,7 +3,10 @@
 import Parser from "../src/parser";
 import commander from "commander";
 
-commander.option("-f, --file <filename>", "output extra debugging");
+commander.option(
+  "-f, --file <filename>",
+  "The YAML or JSON file with a kmdr schema"
+);
 commander.parse(process.argv);
 
 if (commander.file) {
