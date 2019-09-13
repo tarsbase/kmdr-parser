@@ -1,4 +1,4 @@
-#!/user/bin/env node
+#!/usr/bin/env node
 
 import Parser from "../src/parser";
 import commander from "commander";
