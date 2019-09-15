@@ -26,6 +26,7 @@ declare class Schema {
     takesStickyOptions(): boolean;
     toJSON(): string;
     toYAML(): void;
+    summary(): object;
     /**
      * Searches for a nested options recursively
      * @param word the option word

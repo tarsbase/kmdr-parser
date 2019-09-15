@@ -76,7 +76,13 @@ class Subcommand extends schemaValidator_1.default {
             this.options = [];
         }
         else {
-            this.options = options.map(option => new option_1.default(option, this._path));
+            try {
+                this.options = options.map(option => new option_1.default(option, this._path));
+            }
+            catch (err) {
+                console.error("safasd");
+                console.error(err);
+            }
         }
         if (!patterns) {
             this.patterns = [];

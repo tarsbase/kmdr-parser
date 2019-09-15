@@ -4,20 +4,24 @@ import path from "path";
 import Schema from "./schema";
 
 class Parser {
-  public filename: string;
+  private filename: string;
+  private dirname: string;
+  private fileContents: any = {};
 
-  constructor(filename: string) {
-    this.filename = filename;
-    const extName = path.extname(filename);
+  constructor(file: string, options: object) {
+    this.filename = path.basename(file);
+    this.dirname = path.dirname(file);
+
+    const extName = path.extname(file);
 
     switch (extName) {
       case ".json": {
-        this.openJSON(filename);
+        this.openJSON(path.normalize(file));
         break;
       }
       case ".yaml":
       case ".yml": {
-        this.openYAML(filename);
+        this.openYAML(path.normalize(file));
         break;
       }
 
@@ -27,27 +31,36 @@ class Parser {
     }
   }
 
-  openJSON(filename: string) {
+  public parse(): Schema {
     try {
-      const fileContents = fs.readFileSync(filename, "utf8");
-      const json = JSON.parse(fileContents);
-      const schema = new Schema(json);
-      console.log(`The schema ${filename} is valid`);
-    } catch (e) {
-      console.error(`The schema ${filename} is invalid`);
-      console.error(e);
+      return new Schema(this.fileContents);
+    } catch (err) {
+      console.error(`Could not parse the file contents at ${this.filename}`);
+      throw err;
     }
   }
 
-  openYAML(filename: string) {
+  private openJSON(filename: string) {
+    try {
+      console.log(`Opening JSON file ${filename}`);
+      const fileContents = fs.readFileSync(filename, "utf8");
+      const json = JSON.parse(fileContents);
+      this.fileContents = json;
+    } catch (err) {
+      console.error(`The schema ${filename} is invalid`);
+      throw err;
+    }
+  }
+
+  private openYAML(filename: string) {
     // Get document, or throw exception on error
     try {
+      console.log(`Opening YAML file ${filename}`);
       const yamlContents = yaml.safeLoad(fs.readFileSync(filename, "utf8"));
-      const schema = new Schema(yamlContents);
-      console.log(`The schema ${filename} is valid`);
-    } catch (e) {
+      this.fileContents = yamlContents;
+    } catch (err) {
       console.error(`The schema ${filename} is invalid`);
-      console.error(e);
+      throw err;
     }
   }
 }

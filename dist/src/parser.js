@@ -8,17 +8,19 @@ const js_yaml_1 = __importDefault(require("js-yaml"));
 const path_1 = __importDefault(require("path"));
 const schema_1 = __importDefault(require("./schema"));
 class Parser {
-    constructor(filename) {
-        this.filename = filename;
-        const extName = path_1.default.extname(filename);
+    constructor(file, options) {
+        this.fileContents = {};
+        this.filename = path_1.default.basename(file);
+        this.dirname = path_1.default.dirname(file);
+        const extName = path_1.default.extname(file);
         switch (extName) {
             case ".json": {
-                this.openJSON(filename);
+                this.openJSON(path_1.default.normalize(file));
                 break;
             }
             case ".yaml":
             case ".yml": {
-                this.openYAML(filename);
+                this.openYAML(path_1.default.normalize(file));
                 break;
             }
             default: {
@@ -26,28 +28,37 @@ class Parser {
             }
         }
     }
+    parse() {
+        try {
+            return new schema_1.default(this.fileContents);
+        }
+        catch (err) {
+            console.error(`Could not parse the file contents at ${this.filename}`);
+            throw err;
+        }
+    }
     openJSON(filename) {
         try {
+            console.log(`Opening JSON file ${filename}`);
             const fileContents = fs_1.default.readFileSync(filename, "utf8");
             const json = JSON.parse(fileContents);
-            const schema = new schema_1.default(json);
-            console.log(`The schema ${filename} is valid`);
+            this.fileContents = json;
         }
-        catch (e) {
+        catch (err) {
             console.error(`The schema ${filename} is invalid`);
-            console.error(e);
+            throw err;
         }
     }
     openYAML(filename) {
         // Get document, or throw exception on error
         try {
+            console.log(`Opening YAML file ${filename}`);
             const yamlContents = js_yaml_1.default.safeLoad(fs_1.default.readFileSync(filename, "utf8"));
-            const schema = new schema_1.default(yamlContents);
-            console.log(`The schema ${filename} is valid`);
+            this.fileContents = yamlContents;
         }
-        catch (e) {
+        catch (err) {
             console.error(`The schema ${filename} is invalid`);
-            console.error(e);
+            throw err;
         }
     }
 }

@@ -136,6 +136,30 @@ class Schema {
     console.log("no implementation");
   }
 
+  public summary(): object {
+    const summary = {
+      name: this.schema.name,
+      stickyOptions: this.schema.stickyOptions,
+      subcommands: "",
+      summary: this.schema.summary,
+      totalOptions: 0,
+      totalSubcommands: 0
+    };
+
+    if (this.schema.subcommands) {
+      summary.totalSubcommands = this.schema.subcommands.length;
+      summary.subcommands = this.schema.subcommands
+        .map(subcommand => subcommand.name)
+        .toString();
+    }
+
+    if (this.schema.options) {
+      summary.totalOptions = this.schema.options.length;
+    }
+
+    return summary;
+  }
+
   /**
    * Searches for a nested options recursively
    * @param word the option word

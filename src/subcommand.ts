@@ -96,7 +96,12 @@ class Subcommand extends SchemaValidator implements SubcommandSchema {
     if (!options) {
       this.options = [];
     } else {
-      this.options = options.map(option => new Option(option, this._path));
+      try {
+        this.options = options.map(option => new Option(option, this._path));
+      } catch (err) {
+        console.error("safasd");
+        console.error(err);
+      }
     }
 
     if (!patterns) {
