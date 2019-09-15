@@ -4,10 +4,12 @@ summary: A parser/validator for kmdr specs in YAML or JSON format
 link: https://github.com/ediardo/kmdr-parser
 locale: en
 options:
-  - long: ["--file"]
-    short: ["-f"]
-    expectsArg: true
-    summary: The YAML or JSON file with a kmdr schema
+  - long: ["--summary"]
+    short: ["-s"]
+    summary: Show a summary of subcommands and options in a schema
   - long: ["--help"]
     short: ["-h"]
     summary: output usage information
+  - long: ["--version"]
+    short: ["-v"]
+    summary: output the current version
