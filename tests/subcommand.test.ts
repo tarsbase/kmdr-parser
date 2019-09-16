@@ -1,4 +1,4 @@
-import Subcommand from "../src/subcommand";
+import { Subcommand } from "../src/subcommand";
 
 describe("A Subcommand schema cannot be created when", () => {
   test('the name key is not provided, a "Subcommand schema name cannot be empty" error is thrown', () => {

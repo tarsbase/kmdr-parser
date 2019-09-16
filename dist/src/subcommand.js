@@ -1,10 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const option_1 = __importDefault(require("./option"));
-const schemaValidator_1 = __importDefault(require("./schemaValidator"));
+const option_1 = require("./option");
+const schemaValidator_1 = require("./schemaValidator");
 const ERROR_MESSAGES = {
     SUBCOMMAND_NAME_EMPTY: "Subcommand schema name cannot be empty",
     SUBCOMMAND_NAME_INCOMPATIBLE_CHARACTERS: "Subcommand schema name contains incompatible characters",
@@ -12,7 +9,7 @@ const ERROR_MESSAGES = {
     SUBCOMMAND_ALIASES_INVALID: "Subcommand aliases must be an array of strings",
     SUBCOMMAND_STICKY_OPTIONS_INVALID: "Subcommand schema stickyOptions must be a boolean value"
 };
-class Subcommand extends schemaValidator_1.default {
+class Subcommand extends schemaValidator_1.SchemaValidator {
     constructor(subcommand, path = null, props = { stickyOptions: false }) {
         super();
         this.name = "";
@@ -77,7 +74,7 @@ class Subcommand extends schemaValidator_1.default {
         }
         else {
             try {
-                this.options = options.map(option => new option_1.default(option, this._path));
+                this.options = options.map(option => new option_1.Option(option, this._path));
             }
             catch (err) {
                 console.error("safasd");
@@ -92,5 +89,5 @@ class Subcommand extends schemaValidator_1.default {
         }
     }
 }
-exports.default = Subcommand;
+exports.Subcommand = Subcommand;
 //# sourceMappingURL=subcommand.js.map

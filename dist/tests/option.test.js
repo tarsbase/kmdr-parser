@@ -1,13 +1,10 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const option_1 = __importDefault(require("../src/option"));
+const option_1 = require("../src/option");
 describe("An Option Schema cannot be created when", () => {
     test("the summary key is empty", () => {
         expect(() => {
-            const newOption = new option_1.default({
+            const newOption = new option_1.Option({
                 name: "test",
                 summary: "          "
             });
@@ -15,7 +12,7 @@ describe("An Option Schema cannot be created when", () => {
     });
     test("long and short options are missing", () => {
         expect(() => {
-            const newOption = new option_1.default({
+            const newOption = new option_1.Option({
                 name: "test",
                 summary: "short summary"
             });
@@ -23,7 +20,7 @@ describe("An Option Schema cannot be created when", () => {
     });
     test("short contains a value that is not a list of string", () => {
         expect(() => {
-            const newOption = new option_1.default({
+            const newOption = new option_1.Option({
                 name: "test",
                 summary: "soemthing",
                 short: "-f"
@@ -32,7 +29,7 @@ describe("An Option Schema cannot be created when", () => {
     });
     test("long contains a value that is not a list of strings", () => {
         expect(() => {
-            const newOption = new option_1.default({
+            const newOption = new option_1.Option({
                 name: "test",
                 summary: "something",
                 long: 123
@@ -41,7 +38,7 @@ describe("An Option Schema cannot be created when", () => {
     });
     test("short is valid but long is invalid", () => {
         expect(() => {
-            const newOption = new option_1.default({
+            const newOption = new option_1.Option({
                 long: false,
                 name: "test",
                 short: ["-f"],
@@ -51,7 +48,7 @@ describe("An Option Schema cannot be created when", () => {
     });
     test("long is valid but short is invalid", () => {
         expect(() => {
-            const newOption = new option_1.default({
+            const newOption = new option_1.Option({
                 long: ["--something"],
                 name: "name",
                 short: 12,
@@ -61,7 +58,7 @@ describe("An Option Schema cannot be created when", () => {
     });
     test("expectsArg contains a non-boolean value", () => {
         expect(() => {
-            const newOption = new option_1.default({
+            const newOption = new option_1.Option({
                 expectsArg: "",
                 name: "name",
                 short: ["-a"],
@@ -71,7 +68,7 @@ describe("An Option Schema cannot be created when", () => {
     });
     test("description contains a value that is not a string", () => {
         expect(() => {
-            const newOption = new option_1.default({
+            const newOption = new option_1.Option({
                 description: [1, 2, 3],
                 name: "name",
                 short: ["-a"],
@@ -83,12 +80,12 @@ describe("An Option Schema cannot be created when", () => {
 describe("An Option schema is created when", () => {
     test("at least a short option is provided", () => {
         const option = { name: "name", summary: "summary", short: ["-a"] };
-        const optionSchema = new option_1.default(option);
+        const optionSchema = new option_1.Option(option);
         expect(optionSchema).toMatchObject(option);
     });
     test("at least a long option is provided", () => {
         const option = { name: "name", summary: "summary", long: ["--long"] };
-        const optionSchema = new option_1.default(option);
+        const optionSchema = new option_1.Option(option);
         expect(optionSchema).toMatchObject(option);
     });
     test("long and short options are provided", () => {
@@ -98,7 +95,7 @@ describe("An Option schema is created when", () => {
             long: ["--long"],
             short: ["-a"]
         };
-        const optionSchema = new option_1.default(option);
+        const optionSchema = new option_1.Option(option);
         expect(optionSchema).toMatchObject(option);
     });
 });

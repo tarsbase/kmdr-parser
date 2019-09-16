@@ -1,6 +1,6 @@
-import SchemaValidator from "./schemaValidator";
+import { SchemaValidator } from "./schemaValidator";
 import { OptionSchema, SubcommandSchema } from "./interfaces";
-declare class Subcommand extends SchemaValidator implements SubcommandSchema {
+export declare class Subcommand extends SchemaValidator implements SubcommandSchema {
     name: string;
     summary: string;
     aliases?: string[];
@@ -14,5 +14,4 @@ declare class Subcommand extends SchemaValidator implements SubcommandSchema {
         stickyOptions: boolean;
     });
 }
-export default Subcommand;
 //# sourceMappingURL=subcommand.d.ts.map

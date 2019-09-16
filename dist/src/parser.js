@@ -62,5 +62,5 @@ class Parser {
         }
     }
 }
-exports.default = Parser;
+exports.Parser = Parser;
 //# sourceMappingURL=parser.js.map

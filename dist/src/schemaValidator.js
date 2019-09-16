@@ -30,5 +30,5 @@ class SchemaValidator {
         return typeof val === "boolean";
     }
 }
-exports.default = SchemaValidator;
+exports.SchemaValidator = SchemaValidator;
 //# sourceMappingURL=schemaValidator.js.map

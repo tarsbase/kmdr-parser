@@ -1,6 +1,6 @@
-import SchemaValidator from "./schemaValidator";
+import { SchemaValidator } from "./schemaValidator";
 import { OptionSchema } from "./interfaces";
-declare class Option extends SchemaValidator implements OptionSchema {
+export declare class Option extends SchemaValidator implements OptionSchema {
     long?: string[];
     short?: string[];
     summary: string;
@@ -11,5 +11,4 @@ declare class Option extends SchemaValidator implements OptionSchema {
     private _path?;
     constructor(option: OptionSchema, _path?: string[]);
 }
-export default Option;
 //# sourceMappingURL=option.d.ts.map

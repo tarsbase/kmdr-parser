@@ -1,4 +1,4 @@
-import Program from "../src/program";
+import { Program } from "../src/program";
 
 describe("A Program Schema cannot be created when", () => {
   test('the name key is not provided, a  "Schema name cannot be empty" error is thrown', () => {

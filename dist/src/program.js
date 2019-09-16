@@ -1,11 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const option_1 = __importDefault(require("./option"));
-const schemaValidator_1 = __importDefault(require("./schemaValidator"));
-const subcommand_1 = __importDefault(require("./subcommand"));
+const option_1 = require("./option");
+const schemaValidator_1 = require("./schemaValidator");
+const subcommand_1 = require("./subcommand");
 const ERROR_MESSAGES = {
     NAME_EMPTY: "Schema name cannot be empty",
     NAME_INCOMPATIBLE_CHARACTERS: "Schema name can only have letters, digits, ., - and _",
@@ -16,7 +13,7 @@ const ERROR_MESSAGES = {
     SUBCOMMANDS_INVALID: "Schema subcommands must be an array of subcommands",
     OPTIONS_INVALID: "Schema options must be an array of options"
 };
-class Program extends schemaValidator_1.default {
+class Program extends schemaValidator_1.SchemaValidator {
     //envVars?: EnvironmentSchema[];
     constructor(program) {
         super();
@@ -89,7 +86,7 @@ class Program extends schemaValidator_1.default {
             throw new Error(msg);
         }
         else {
-            this.subcommands = subcommands.map(subcommand => new subcommand_1.default(subcommand, [this.name], {
+            this.subcommands = subcommands.map(subcommand => new subcommand_1.Subcommand(subcommand, [this.name], {
                 stickyOptions: this.stickyOptions
             }));
         }
@@ -101,9 +98,9 @@ class Program extends schemaValidator_1.default {
             throw new Error(msg);
         }
         else {
-            this.options = options.map(option => new option_1.default(option));
+            this.options = options.map(option => new option_1.Option(option));
         }
     }
 }
-exports.default = Program;
+exports.Program = Program;
 //# sourceMappingURL=program.js.map

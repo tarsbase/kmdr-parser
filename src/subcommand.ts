@@ -1,5 +1,5 @@
-import Option from "./option";
-import SchemaValidator from "./schemaValidator";
+import { Option } from "./option";
+import { SchemaValidator } from "./schemaValidator";
 import { OptionSchema, SubcommandSchema } from "./interfaces";
 
 const ERROR_MESSAGES = {
@@ -12,7 +12,7 @@ const ERROR_MESSAGES = {
     "Subcommand schema stickyOptions must be a boolean value"
 };
 
-class Subcommand extends SchemaValidator implements SubcommandSchema {
+export class Subcommand extends SchemaValidator implements SubcommandSchema {
   name: string = "";
   summary: string = "";
   aliases?: string[];
@@ -111,5 +111,3 @@ class Subcommand extends SchemaValidator implements SubcommandSchema {
     }
   }
 }
-
-export default Subcommand;

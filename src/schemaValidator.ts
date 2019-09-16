@@ -1,6 +1,6 @@
 import validator from "validator";
 
-class SchemaValidator {
+export class SchemaValidator {
   protected constructor() {}
   isURL(str: string): boolean {
     return validator.isURL(str);
@@ -32,5 +32,3 @@ class SchemaValidator {
     return typeof val === "boolean";
   }
 }
-
-export default SchemaValidator;

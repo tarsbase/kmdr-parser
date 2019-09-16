@@ -2,7 +2,7 @@
   "name": "kmdr-parser",
   "version": "1.0.5",
   "description": "The parser for kmdr specs in YAML or JSON format",
-  "main": "dist/src/schema.js",
+  "main": "dist/src/index.js",
   "repository": "https://github.com/ediardo/kmdr-parser.git",
   "author": "djedir@gmail.com",
   "license": "MIT",

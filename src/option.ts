@@ -1,4 +1,4 @@
-import SchemaValidator from "./schemaValidator";
+import { SchemaValidator } from "./schemaValidator";
 import { OptionSchema } from "./interfaces";
 import OptionSchemaMissingPropertyError from "./errors/optionSchemaMissingPropertyError";
 
@@ -12,7 +12,7 @@ const ERROR_MESSAGES = {
   OPTION_SUMMARY_EMPTY: `Option summary cannot be empty`
 };
 
-class Option extends SchemaValidator implements OptionSchema {
+export class Option extends SchemaValidator implements OptionSchema {
   public long?: string[];
   public short?: string[];
   public summary: string = "";
@@ -82,5 +82,3 @@ class Option extends SchemaValidator implements OptionSchema {
     }
   }
 }
-
-export default Option;

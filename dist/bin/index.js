@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const commander_1 = __importDefault(require("commander"));
-const parser_1 = __importDefault(require("../src/parser"));
+const parser_1 = require("../src/parser");
 // tslint:disable-next-line: no-var-requires
 const pkg = require("../../package.json");
 let allFiles = [];
@@ -29,7 +29,7 @@ const options = {
 };
 for (const file of allFiles) {
     try {
-        const parser = new parser_1.default(file, options);
+        const parser = new parser_1.Parser(file, options);
         const schema = parser.parse();
         console.log(`The program schema ${file} is valid!`);
         if (options.showStats) {

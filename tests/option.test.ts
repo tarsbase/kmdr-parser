@@ -1,4 +1,4 @@
-import Option from "../src/option";
+import { Option } from "../src/option";
 
 describe("An Option Schema cannot be created when", () => {
   test("the summary key is empty", () => {

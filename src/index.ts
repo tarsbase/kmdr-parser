@@ -1,5 +1,8 @@
-import Option from "./option";
+import { Option } from "./option";
+import { Parser } from "./parser";
+import { Program } from "./program";
 import Schema from "./schema";
-import Subcommand from "./subcommand";
+import { Subcommand } from "./subcommand";
 
-export { Schema, Option, Subcommand };
+export { Parser, Program, Option, Subcommand };
+export default Schema;

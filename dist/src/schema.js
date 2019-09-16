@@ -1,13 +1,10 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const program_1 = __importDefault(require("./program"));
+const program_1 = require("./program");
 class Schema {
     constructor(schema) {
         try {
-            this.schema = new program_1.default(schema);
+            this.schema = new program_1.Program(schema);
         }
         catch (err) {
             throw err;

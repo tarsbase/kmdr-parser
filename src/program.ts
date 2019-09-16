@@ -1,6 +1,6 @@
-import Option from "./option";
-import SchemaValidator from "./schemaValidator";
-import Subcommand from "./subcommand";
+import { Option } from "./option";
+import { SchemaValidator } from "./schemaValidator";
+import { Subcommand } from "./subcommand";
 import {
   ProgramSchema,
   SubcommandSchema,
@@ -20,7 +20,7 @@ const ERROR_MESSAGES = {
   OPTIONS_INVALID: "Schema options must be an array of options"
 };
 
-class Program extends SchemaValidator implements ProgramSchema {
+export class Program extends SchemaValidator implements ProgramSchema {
   name: string = "";
   summary: string = "";
   description?: string;
@@ -125,5 +125,3 @@ class Program extends SchemaValidator implements ProgramSchema {
     }
   }
 }
-
-export default Program;

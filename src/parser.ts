@@ -3,7 +3,7 @@ import yaml from "js-yaml";
 import path from "path";
 import Schema from "./schema";
 
-class Parser {
+export class Parser {
   private filename: string;
   private dirname: string;
   private fileContents: any = {};
@@ -64,5 +64,3 @@ class Parser {
     }
   }
 }
-
-export default Parser;

@@ -6,5 +6,5 @@ class Environment {
         this.summary = "";
     }
 }
-exports.default = Environment;
+exports.Environment = Environment;
 //# sourceMappingURL=environment.js.map

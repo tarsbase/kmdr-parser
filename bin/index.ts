@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import commander from "commander";
-import Parser from "../src/parser";
+import { Parser } from "../src/parser";
 // tslint:disable-next-line: no-var-requires
 const pkg = require("../../package.json");
 

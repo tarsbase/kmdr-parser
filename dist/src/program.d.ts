@@ -1,8 +1,8 @@
-import Option from "./option";
-import SchemaValidator from "./schemaValidator";
-import Subcommand from "./subcommand";
+import { Option } from "./option";
+import { SchemaValidator } from "./schemaValidator";
+import { Subcommand } from "./subcommand";
 import { ProgramSchema } from "./interfaces";
-declare class Program extends SchemaValidator implements ProgramSchema {
+export declare class Program extends SchemaValidator implements ProgramSchema {
     name: string;
     summary: string;
     description?: string;
@@ -15,5 +15,4 @@ declare class Program extends SchemaValidator implements ProgramSchema {
     stickyOptions: boolean;
     constructor(program: ProgramSchema);
 }
-export default Program;
 //# sourceMappingURL=program.d.ts.map

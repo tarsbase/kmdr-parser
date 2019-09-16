@@ -2,7 +2,7 @@
  * Copyright 2019 Eddie Ramirez
  */
 import { OptionSchema, ProgramSchema, SubcommandSchema } from "./interfaces";
-import Program from "./program";
+import { Program } from "./program";
 
 class Schema {
   public static getSubcommand(

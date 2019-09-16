@@ -1,5 +1,5 @@
 import Schema from "./schema";
-declare class Parser {
+export declare class Parser {
     private filename;
     private dirname;
     private fileContents;
@@ -8,5 +8,4 @@ declare class Parser {
     private openJSON;
     private openYAML;
 }
-export default Parser;
 //# sourceMappingURL=parser.d.ts.map

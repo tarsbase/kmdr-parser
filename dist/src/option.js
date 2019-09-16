@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const schemaValidator_1 = __importDefault(require("./schemaValidator"));
+const schemaValidator_1 = require("./schemaValidator");
 const optionSchemaMissingPropertyError_1 = __importDefault(require("./errors/optionSchemaMissingPropertyError"));
 const ERROR_MESSAGES = {
     OPTION_DESCRIPTION_INVALID: "Option description must be a string",
@@ -13,7 +13,7 @@ const ERROR_MESSAGES = {
     OPTION_NAME_INVALID: "Option schema name must be a string",
     OPTION_SUMMARY_EMPTY: `Option summary cannot be empty`
 };
-class Option extends schemaValidator_1.default {
+class Option extends schemaValidator_1.SchemaValidator {
     constructor(option, _path) {
         super();
         this.summary = "";
@@ -67,5 +67,5 @@ class Option extends schemaValidator_1.default {
         }
     }
 }
-exports.default = Option;
+exports.Option = Option;
 //# sourceMappingURL=option.js.map
