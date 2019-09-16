@@ -26,7 +26,7 @@ export class Parser {
       }
 
       default: {
-        console.error("Only JSON or YAML formats are supported");
+        throw Error("Only JSON or YAML file formats are supported");
       }
     }
   }
@@ -35,19 +35,16 @@ export class Parser {
     try {
       return new Schema(this.fileContents);
     } catch (err) {
-      console.error(`Could not parse the file contents at ${this.filename}`);
       throw err;
     }
   }
 
   private openJSON(filename: string) {
     try {
-      console.log(`Opening JSON file ${filename}`);
       const fileContents = fs.readFileSync(filename, "utf8");
       const json = JSON.parse(fileContents);
       this.fileContents = json;
     } catch (err) {
-      console.error(`The schema ${filename} is invalid`);
       throw err;
     }
   }
@@ -55,11 +52,9 @@ export class Parser {
   private openYAML(filename: string) {
     // Get document, or throw exception on error
     try {
-      console.log(`Opening YAML file ${filename}`);
       const yamlContents = yaml.safeLoad(fs.readFileSync(filename, "utf8"));
       this.fileContents = yamlContents;
     } catch (err) {
-      console.error(`The schema ${filename} is invalid`);
       throw err;
     }
   }

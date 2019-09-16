@@ -67,7 +67,7 @@ class Subcommand extends schemaValidator_1.SchemaValidator {
             this.subcommands = [];
         }
         else {
-            this.subcommands = subcommands.map(subcommand => new Subcommand(subcommand, this._path, Object.assign({}, props)));
+            this.subcommands = subcommands.map(subcommand => new Subcommand(subcommand, this._path, { ...props }));
         }
         if (!options) {
             this.options = [];

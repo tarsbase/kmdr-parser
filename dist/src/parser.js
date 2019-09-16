@@ -24,7 +24,7 @@ class Parser {
                 break;
             }
             default: {
-                console.error("Only JSON or YAML formats are supported");
+                throw Error("Only JSON or YAML file formats are supported");
             }
         }
     }
@@ -33,31 +33,26 @@ class Parser {
             return new schema_1.default(this.fileContents);
         }
         catch (err) {
-            console.error(`Could not parse the file contents at ${this.filename}`);
             throw err;
         }
     }
     openJSON(filename) {
         try {
-            console.log(`Opening JSON file ${filename}`);
             const fileContents = fs_1.default.readFileSync(filename, "utf8");
             const json = JSON.parse(fileContents);
             this.fileContents = json;
         }
         catch (err) {
-            console.error(`The schema ${filename} is invalid`);
             throw err;
         }
     }
     openYAML(filename) {
         // Get document, or throw exception on error
         try {
-            console.log(`Opening YAML file ${filename}`);
             const yamlContents = js_yaml_1.default.safeLoad(fs_1.default.readFileSync(filename, "utf8"));
             this.fileContents = yamlContents;
         }
         catch (err) {
-            console.error(`The schema ${filename} is invalid`);
             throw err;
         }
     }
