@@ -1,5 +1,5 @@
-src/
-tsconfig.json
-kmdr.yaml.png
-tslint.json
+./src/
+./tsconfig.json
+./kmdr.yaml.png
+./tslint.json
 
