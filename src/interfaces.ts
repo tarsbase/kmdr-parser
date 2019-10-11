@@ -46,3 +46,8 @@ export interface OptionSchema {
   source?: string;
   summary: string;
 }
+
+export interface SchemaStats {
+  options: number;
+  subcommands: number;
+}

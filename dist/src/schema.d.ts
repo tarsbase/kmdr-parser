@@ -1,7 +1,7 @@
 /**
  * Copyright 2019 Eddie Ramirez
  */
-import { OptionSchema, ProgramSchema, SubcommandSchema } from "./interfaces";
+import { OptionSchema, ProgramSchema, SchemaStats, SubcommandSchema } from "./interfaces";
 declare class Schema {
     static getSubcommand(word: string, schema: ProgramSchema | SubcommandSchema): SubcommandSchema | null;
     static subcmdPathToName(subcommandPath: string[]): string;
@@ -26,7 +26,7 @@ declare class Schema {
     takesStickyOptions(): boolean;
     toJSON(): string;
     toYAML(): void;
-    summary(): object;
+    readonly stats: SchemaStats;
     /**
      * Searches for a nested options recursively
      * @param word the option word

@@ -95,25 +95,25 @@ class Schema {
     toYAML() {
         console.log("no implementation");
     }
-    summary() {
-        const summary = {
-            name: this.schema.name,
-            stickyOptions: this.schema.stickyOptions,
-            subcommands: "",
-            summary: this.schema.summary,
-            totalOptions: 0,
-            totalSubcommands: 0
+    get stats() {
+        let tally = { options: 0, subcommands: 0 };
+        const getTotals = (acc, schema) => {
+            let localAcc = { ...acc };
+            if (schema) {
+                if (schema.options && schema.options.length > 0) {
+                    localAcc.options += schema.options.length;
+                }
+                if (schema.subcommands && schema.subcommands.length > 0) {
+                    localAcc.subcommands += schema.subcommands.length;
+                    for (const subcommand of schema.subcommands) {
+                        localAcc = getTotals(localAcc, subcommand);
+                    }
+                }
+            }
+            return localAcc;
         };
-        if (this.schema.subcommands) {
-            summary.totalSubcommands = this.schema.subcommands.length;
-            summary.subcommands = this.schema.subcommands
-                .map(subcommand => subcommand.name)
-                .toString();
-        }
-        if (this.schema.options) {
-            summary.totalOptions = this.schema.options.length;
-        }
-        return summary;
+        const totals = getTotals(tally, this.schema);
+        return totals;
     }
     /**
      * Searches for a nested options recursively

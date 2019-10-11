@@ -36,7 +36,7 @@ for (const file of allFiles) {
     const schema = parser.parse();
     console.log(`The program schema ${file} is valid!`);
     if (options.showStats) {
-      console.log(schema.summary());
+      console.log(schema.stats);
     }
   } catch (err) {
     console.error(err);

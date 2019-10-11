@@ -1,7 +1,7 @@
 /**
  * Copyright 2019 Eddie Ramirez
  */
-import { OptionSchema, ProgramSchema, SubcommandSchema } from "./interfaces";
+import { OptionSchema, ProgramSchema, SchemaStats, SubcommandSchema } from "./interfaces";
 import { Program } from "./program";
 
 class Schema {
@@ -136,28 +136,33 @@ class Schema {
     console.log("no implementation");
   }
 
-  public summary(): object {
-    const summary = {
-      name: this.schema.name,
-      stickyOptions: this.schema.stickyOptions,
-      subcommands: "",
-      summary: this.schema.summary,
-      totalOptions: 0,
-      totalSubcommands: 0
-    };
+  public get stats(): SchemaStats {
+    let tally: SchemaStats = { options: 0, subcommands: 0};
 
-    if (this.schema.subcommands) {
-      summary.totalSubcommands = this.schema.subcommands.length;
-      summary.subcommands = this.schema.subcommands
-        .map(subcommand => subcommand.name)
-        .toString();
+    const getTotals = (acc: SchemaStats, schema?: ProgramSchema | SubcommandSchema): SchemaStats => {
+      let  localAcc = { ...acc };
+
+      if (schema) {
+        if (schema.options && schema.options.length > 0) {
+          localAcc.options += schema.options.length;
+        }
+  
+        if (schema.subcommands && schema.subcommands.length > 0) {
+          localAcc.subcommands += schema.subcommands.length;
+          
+          for (const subcommand of schema.subcommands) {
+            localAcc = getTotals(localAcc, subcommand);
+            
+          }
+        }  
+      }
+      
+      return localAcc;
     }
 
-    if (this.schema.options) {
-      summary.totalOptions = this.schema.options.length;
-    }
-
-    return summary;
+    const totals = getTotals(tally, this.schema);
+    
+    return totals;
   }
 
   /**
