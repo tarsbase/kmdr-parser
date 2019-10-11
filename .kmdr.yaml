@@ -4,9 +4,9 @@ summary: A parser/validator for kmdr specs in YAML or JSON format
 link: https://github.com/ediardo/kmdr-parser
 locale: en
 options:
-  - long: ["--summary"]
+  - long: ["--show-stats"]
     short: ["-s"]
-    summary: Show a summary of subcommands and options in a schema
+    summary: Show total number subcommands and options in a schema
   - long: ["--help"]
     short: ["-h"]
     summary: output usage information

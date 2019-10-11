@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-
 import commander from "commander";
 import { Parser } from "../src/parser";
+
 // tslint:disable-next-line: no-var-requires
 const pkg = require("../../package.json");
 
@@ -10,7 +10,7 @@ let allFiles: string[] = [];
 commander
   .version(pkg.version, "-v, --version", "out the current version")
   .option(
-    "-s, --summary",
+    "-s, --show-stats",
     "Show a summary of subcommands and options in a schema"
   )
   // .option("-w, --warnings", "Show validation warnings")
@@ -26,8 +26,7 @@ commander
 commander.parse(process.argv);
 
 const options = {
-  showStats: commander.summary,
-  showWarnings: commander.warnings
+  showStats: commander.showStats
 };
 
 for (const file of allFiles) {
