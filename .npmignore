@@ -1,5 +1,4 @@
 src/
-bin/
 tsconfig.json
 kmdr.yaml.png
 tslint.json
