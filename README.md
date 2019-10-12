@@ -30,32 +30,18 @@ Usage: kmdr-parser [options] <file> [files...]
 
 Options:
   -v, --version  out the current version
-  -s, --summary  Show a summary of subcommands and options in a schema
+  -s, --show-summary  Show a summary of subcommands and options in a schema
   -h, --help     output usage information
 ```
 
 #### Validating a schema
 
 ```bash
-$ kmdr-parser git.json gem.json
-Opening JSON file git.json
-The program schema git.json is valid!
-Opening JSON file gem.json
-The program schema gem.json is valid!
-```
-
-#### Display a summary of a valid schema
-
-```bash
-$ kmdr-parser -s kmdr.json
-Opening JSON file kmdr.json
-The program schema kmdr.json is valid!
-{ name: 'kmdr',
-  stickyOptions: false,
-  subcommands: 'explain,config',
-  summary: 'CLI client for explaning shell commands',
-  totalOptions: 1,
-  totalSubcommands: 2 }
+$ kmdr-parser -s schemas/kmdr.json schemas/git.json
+The program schema schemas/kmdr.json is valid!
+{ options: 1, subcommands: 2 }
+The program schema schemas/git.json is valid!
+{ options: 684, subcommands: 20 }
 ```
 
 ### API
