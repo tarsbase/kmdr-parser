@@ -56,7 +56,6 @@ describe("The kmdr program", () => {
   });
 
   test('subcommand "uno" has a subcommand "dos"', () => {
-    console.log("asdfsfad");
     expect(newSchema.hasSubcommand("dos", ["kmdr", "uno"])).toBeTruthy();
   });
 
