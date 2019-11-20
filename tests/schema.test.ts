@@ -41,7 +41,13 @@ describe("The kmdr program", () => {
           summary: "subcommand uno"
         }
       ],
-      summary: "Explain commands"
+      summary: "Explain commands",
+      examples: [
+        {
+          summary: "example command",
+          command: "kmdr uno"
+        }
+      ]
     };
 
     newSchema = new Schema(schema);
@@ -56,7 +62,6 @@ describe("The kmdr program", () => {
   });
 
   test('subcommand "uno" has a subcommand "dos"', () => {
-    console.log("asdfsfad");
     expect(newSchema.hasSubcommand("dos", ["kmdr", "uno"])).toBeTruthy();
   });
 
@@ -70,8 +75,15 @@ describe("The kmdr program", () => {
 
   test("outputs a valid JSON", () => {
     const expectedJSON =
-      '{"name":"kmdr","summary":"Explain commands","stickyOptions":false,"description":"","version":"","link":"","locale":"en","subcommands":[{"name":"test","summary":"subcommand test","_path":["kmdr","test"],"description":"","aliases":[],"stickyOptions":false,"subcommands":[],"options":[],"patterns":[]},{"name":"uno","summary":"subcommand uno","_path":["kmdr","uno"],"description":"","aliases":[],"stickyOptions":false,"subcommands":[{"name":"dos","summary":"subcommand dos","_path":["kmdr","uno","dos"],"description":"","aliases":[],"stickyOptions":false,"subcommands":[{"name":"tres","summary":"subcommand tres","_path":["kmdr","uno","dos","tres"],"description":"","aliases":[],"stickyOptions":false,"subcommands":[],"options":[],"patterns":[]}],"options":[],"patterns":[]}],"options":[],"patterns":[]}],"options":[]}';
-
+      '{"name":"kmdr","summary":"Explain commands","stickyOptions":false,"description":"","version":"","link":"","locale":"en","subcommands":[{"name":"test","summary":"subcommand test","_path":["kmdr","test"],"stickyOptions":false},{"name":"uno","summary":"subcommand uno","_path":["kmdr","uno"],"stickyOptions":false,"subcommands":[{"name":"dos","summary":"subcommand dos","_path":["kmdr","uno","dos"],"stickyOptions":false,"subcommands":[{"name":"tres","summary":"subcommand tres","_path":["kmdr","uno","dos","tres"],"stickyOptions":false}]}]}],"examples":[{"command":"kmdr uno","summary":"example command"}]}';
     expect(expectedJSON).toEqual(newSchema.toJSON());
+  });
+
+  test("it has x options, x subcommands and x examples", () => {
+    expect(newSchema.stats).toMatchObject({
+      options: 0,
+      subcommands: 4,
+      examples: 1
+    });
   });
 });

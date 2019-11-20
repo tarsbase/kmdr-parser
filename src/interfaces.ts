@@ -5,6 +5,7 @@
 export interface ProgramSchema {
   description?: string;
   environment?: EnvironmentSchema[];
+  examples?: CommandInterface[];
   link?: string;
   locale?: string;
   name: string;
@@ -20,6 +21,7 @@ export interface SubcommandSchema {
   _path?: string[];
   aliases?: string[];
   description?: string;
+  examples?: CommandInterface[];
   name: string;
   options?: OptionSchema[];
   patterns?: string[];
@@ -50,4 +52,12 @@ export interface OptionSchema {
 export interface SchemaStats {
   options: number;
   subcommands: number;
+  examples: number;
+}
+
+export interface CommandInterface {
+  summary: string;
+  command: string;
+  description?: string;
+  output?: string;
 }

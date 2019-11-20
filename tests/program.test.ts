@@ -200,4 +200,20 @@ describe("A schema is created when", () => {
     const programSchema = new Program(program);
     expect(programSchema).toMatchObject(program);
   });
+
+  test("a program with valid examples", () => {
+    const program = {
+      name: "kmdr",
+      summary: "The ultimate CLI learning too",
+      examples: [
+        {
+          summary: "Explain a command",
+          command: "kmdr explain"
+        }
+      ]
+    };
+
+    const programSchema = new Program(program);
+    expect(programSchema).toMatchObject(program);
+  });
 });
