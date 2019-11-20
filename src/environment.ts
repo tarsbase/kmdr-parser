@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import { EnvironmentSchema } from "./interfaces";
 
 export class Environment implements EnvironmentSchema {

@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import fs from "fs";
 import yaml from "js-yaml";
 import path from "path";

@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import { SchemaValidator } from "./schemaValidator";
 import { OptionSchema } from "./interfaces";
 import OptionSchemaMissingPropertyError from "./errors/optionSchemaMissingPropertyError";

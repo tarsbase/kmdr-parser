@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import Schema from "../src/schema";
 
 describe("A Schema can be created when", () => {

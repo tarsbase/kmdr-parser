@@ -1,4 +1,6 @@
 /**
+ * Copyright 2019 Eddie Ramirez
+ *
  * Interface to construct ProgramSchema object
  */
 

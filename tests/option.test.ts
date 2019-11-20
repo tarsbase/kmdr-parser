@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import { Option } from "../src/option";
 
 describe("An Option Schema cannot be created when", () => {

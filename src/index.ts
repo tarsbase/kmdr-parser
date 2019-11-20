@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import { OptionSchema, ProgramSchema, SubcommandSchema } from "./interfaces";
 import { Option } from "./option";
 import { Parser } from "./parser";

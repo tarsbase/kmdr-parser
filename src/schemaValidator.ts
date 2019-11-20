@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import validator from "validator";
 
 export class SchemaValidator {

@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import { Program } from "../src/program";
 
 describe("A Program Schema cannot be created when", () => {

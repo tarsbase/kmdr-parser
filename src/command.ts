@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import { CommandInterface } from "./interfaces";
 import { SchemaValidator } from "./schemaValidator";
 

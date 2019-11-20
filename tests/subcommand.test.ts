@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import { Subcommand } from "../src/subcommand";
 
 describe("A Subcommand schema cannot be created when", () => {

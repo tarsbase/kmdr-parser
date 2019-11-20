@@ -1,3 +1,7 @@
+/**
+ * Copyright 2019 Eddie Ramirez
+ */
+
 import { Command } from "../src/command";
 
 describe("Cannot create a command example if", () => {
