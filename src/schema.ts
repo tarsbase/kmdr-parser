@@ -1,7 +1,12 @@
 /**
  * Copyright 2019 Eddie Ramirez
  */
-import { OptionSchema, ProgramSchema, SchemaStats, SubcommandSchema } from "./interfaces";
+import {
+  OptionSchema,
+  ProgramSchema,
+  SchemaStats,
+  SubcommandSchema
+} from "./interfaces";
 import { Program } from "./program";
 
 class Schema {
@@ -137,32 +142,36 @@ class Schema {
   }
 
   public get stats(): SchemaStats {
-    let tally: SchemaStats = { options: 0, subcommands: 0};
+    const tally: SchemaStats = { options: 0, subcommands: 0, examples: 0 };
 
-    const getTotals = (acc: SchemaStats, schema?: ProgramSchema | SubcommandSchema): SchemaStats => {
-      let  localAcc = { ...acc };
+    const getTotals = (
+      acc: SchemaStats,
+      schema?: ProgramSchema | SubcommandSchema
+    ): SchemaStats => {
+      let localAcc = { ...acc };
 
       if (schema) {
         if (schema.options && schema.options.length > 0) {
           localAcc.options += schema.options.length;
         }
-  
+
         if (schema.subcommands && schema.subcommands.length > 0) {
           localAcc.subcommands += schema.subcommands.length;
-          
+
           for (const subcommand of schema.subcommands) {
             localAcc = getTotals(localAcc, subcommand);
-            
           }
-        }  
-      }
-      
-      return localAcc;
-    }
+        }
 
-    const totals = getTotals(tally, this.schema);
-    
-    return totals;
+        if (schema.examples && schema.examples.length > 0) {
+          localAcc.examples += schema.examples.length;
+        }
+      }
+
+      return localAcc;
+    };
+
+    return getTotals(tally, this.schema);
   }
 
   /**

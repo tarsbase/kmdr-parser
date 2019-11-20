@@ -85,6 +85,7 @@ export class Program extends SchemaValidator implements ProgramSchema {
     } else {
       this.link = link.trim();
     }
+
     if (!locale) {
       this.locale = "en";
     } else {
@@ -98,27 +99,27 @@ export class Program extends SchemaValidator implements ProgramSchema {
       this.stickyOptions = true;
     }
 
-    if (!subcommands) {
-      this.subcommands = [];
-    } else if (!Array.isArray(subcommands)) {
-      const msg = ERROR_MESSAGES.SUBCOMMANDS_INVALID;
-      throw new Error(msg);
-    } else {
-      this.subcommands = subcommands.map(
-        subcommand =>
-          new Subcommand(subcommand, [this.name], {
-            stickyOptions: this.stickyOptions
-          })
-      );
+    if (subcommands !== undefined) {
+      if (!Array.isArray(subcommands)) {
+        const msg = ERROR_MESSAGES.SUBCOMMANDS_INVALID;
+        throw new Error(msg);
+      } else {
+        this.subcommands = subcommands.map(
+          subcommand =>
+            new Subcommand(subcommand, [this.name], {
+              stickyOptions: this.stickyOptions
+            })
+        );
+      }
     }
 
-    if (!options) {
-      this.options = [];
-    } else if (!Array.isArray(options)) {
-      const msg = ERROR_MESSAGES.OPTIONS_INVALID;
-      throw new Error(msg);
-    } else {
-      this.options = options.map(option => new Option(option));
+    if (options !== undefined) {
+      if (!Array.isArray(options)) {
+        const msg = ERROR_MESSAGES.OPTIONS_INVALID;
+        throw new Error(msg);
+      } else {
+        this.options = options.map(option => new Option(option));
+      }
     }
 
     if (examples !== undefined) {
