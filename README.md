@@ -72,12 +72,12 @@ Every program explained by kmdr has a schema with key-value pairs defining the p
 | `description`   | A verbose explanation of what the program does                            | No       | `string`        |         |
 | `version`       | The version of the program used for building this schema                  | No       | `string`        |         |
 | `locale`        | The target language of the schema                                         | No       | `string`        | `"en"`  |
-| `subcommands`   | The subcommands available in the program                                  | No       | `subcommand[]`  | `[]`    |
-| `options`       | The options available in the program                                      | No       | `option[]`      | `[]`    |
+| `subcommands`   | The subcommands available in the program                                  | No       | `subcommand[]`  |         |
+| `options`       | The options available in the program                                      | No       | `option[]`      |         |
 | `link`          | Link to the program's page                                                | No       | `string`        |         |
 | `stickyOptions` | Whether the program accepts sticky options (e.g. `-rf` for `-r` and `-f`) | No       | `boolean`       | false   |
-| `environment`   | Environment variables picked up by the program                            | No       | `environment[]` | `[]`    |
-| `examples`      |                                                                           | Non      | `example[]`     | `[]`    |
+| `environment`   | Environment variables picked up by the program                            | No       | `environment[]` |         |
+| `examples`      | List of command examples                                                  | No       | `example[]`     |         |
 
 ### The `option` object
 
@@ -112,15 +112,9 @@ Subcommands have similar key-value pairs to programs. In Table 2.0 we see that t
 | `summary`     | A short explanation of the subcommand       | **Yes**  | `string`        |         |
 | `aliases`     | Aliases                                     | No       | `string`        |         |
 | `description` | A verbose explanation of the subcommand     | No       | `string`        |         |
-| `subcommands` | The subcommands available in the subcommand | No       | `subcommands[]` | `[]`    |
-| `options`     | The options available in the subcommand     | No       | `options[]`     | `[]`    |
-
-### The `environment` object
-
-| Key       | Definition                                      | Required | Type     | Default |
-| --------- | ----------------------------------------------- | -------- | -------- | ------- |
-| `name`    | The name of the environment variable            | **Yes**  | `string` |         |
-| `summary` | A short explanation of the environment variable | **Yes**  | `string` |         |
+| `subcommands` | The subcommands available in the subcommand | No       | `subcommands[]` |         |
+| `options`     | The options available in the subcommand     | No       | `options[]`     |         |
+| `examples`    | Command examples                            | No       | `examples[]`    |         |
 
 ### The `example` object
 
@@ -128,3 +122,10 @@ Subcommands have similar key-value pairs to programs. In Table 2.0 we see that t
 | --------- | -------------------------------------------- | -------- | -------- | ------- |
 | `command` | The command                                  | **Yes**  | `string` |         |
 | `summary` | A short explanation of what the command does | **Yes**  | `string` |         |
+
+### The `environment` object
+
+| Key       | Definition                                      | Required | Type     | Default |
+| --------- | ----------------------------------------------- | -------- | -------- | ------- |
+| `name`    | The name of the environment variable            | **Yes**  | `string` |         |
+| `summary` | A short explanation of the environment variable | **Yes**  | `string` |         |
