@@ -58,6 +58,7 @@ export interface SchemaStats {
 }
 
 export interface CommandInterface {
+  ast?: string;
   summary: string;
   command: string;
   description?: string;

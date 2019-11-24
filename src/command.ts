@@ -16,6 +16,7 @@ export class Command extends SchemaValidator implements CommandInterface {
   public summary: string;
   public description?: string;
   public output?: string;
+  public ast?: string;
 
   constructor(newCommand: CommandInterface) {
     super();

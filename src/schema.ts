@@ -1,6 +1,7 @@
 /**
  * Copyright 2019 Eddie Ramirez
  */
+
 import {
   OptionSchema,
   ProgramSchema,
