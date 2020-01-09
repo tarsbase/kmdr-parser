@@ -1,5 +1,5 @@
 import { Command } from "./command";
-import { ProgramSchema } from "./interfaces";
+import { ProgramSchema, ArgumentInterface } from "./interfaces";
 import { Option } from "./option";
 import { SchemaValidator } from "./schemaValidator";
 import { Subcommand } from "./subcommand";
@@ -14,10 +14,12 @@ const ERROR_MESSAGES = {
   OPTIONS_INVALID: "Schema options must be an array of options",
   STICKY_OPTIONS_INVALID: "Schema stickyOptions must be of type boolean",
   SUBCOMMANDS_INVALID: "Schema subcommands must be an array of subcommands",
-  SUMMARY_EMPTY: "Schema summary cannot be empty"
+  SUMMARY_EMPTY: "Schema summary cannot be empty",
+  EXPECTS_COMMAND_INVALID: "Schema expectsCommand must be of type boolean",
+  USAGE_INVALID: "Schema usage must be a string"
 };
 
-export class Program extends SchemaValidator implements ProgramSchema {
+export class Program implements ProgramSchema {
   public name: string = "";
   public summary: string = "";
   public description?: string;
@@ -27,11 +29,14 @@ export class Program extends SchemaValidator implements ProgramSchema {
   public options?: Option[];
   public link?: string;
   public patterns?: string[];
-  public stickyOptions: boolean = false;
+  public stickyOptions?: boolean;
   public examples?: Command[];
+  public expectsCommand?: boolean;
+  public usage?: string;
+  public arguments?: ArgumentInterface[];
+  public standard?: string;
 
   constructor(program: ProgramSchema) {
-    super();
     const {
       name,
       summary,
@@ -42,13 +47,17 @@ export class Program extends SchemaValidator implements ProgramSchema {
       options,
       link,
       stickyOptions,
-      examples
+      examples,
+      expectsCommand,
+      usage,
+      arguments: args,
+      standard
     } = program;
 
     if (!name || name.trim() === "") {
       const msg = ERROR_MESSAGES.NAME_EMPTY;
       throw new Error(msg);
-    } else if (!this.isValidName(name)) {
+    } else if (!SchemaValidator.isValidName(name)) {
       const msg = ERROR_MESSAGES.NAME_INCOMPATIBLE_CHARACTERS;
       throw new Error(msg);
     } else {
@@ -79,7 +88,7 @@ export class Program extends SchemaValidator implements ProgramSchema {
 
     if (!link) {
       this.link = "";
-    } else if (!super.isURL(link)) {
+    } else if (!SchemaValidator.isURL(link)) {
       const msg = ERROR_MESSAGES.LINK_INVALID;
       throw new Error(msg);
     } else {
@@ -92,7 +101,10 @@ export class Program extends SchemaValidator implements ProgramSchema {
       this.locale = locale.trim();
     }
 
-    if (stickyOptions !== undefined && !this.isBoolean(stickyOptions)) {
+    if (
+      stickyOptions !== undefined &&
+      !SchemaValidator.isBoolean(stickyOptions)
+    ) {
       const msg = ERROR_MESSAGES.STICKY_OPTIONS_INVALID;
       throw new Error(msg);
     } else if (stickyOptions === true) {
@@ -105,10 +117,7 @@ export class Program extends SchemaValidator implements ProgramSchema {
         throw new Error(msg);
       } else {
         this.subcommands = subcommands.map(
-          subcommand =>
-            new Subcommand(subcommand, [this.name], {
-              stickyOptions: this.stickyOptions
-            })
+          subcommand => new Subcommand(subcommand, [this.name])
         );
       }
     }
@@ -130,5 +139,19 @@ export class Program extends SchemaValidator implements ProgramSchema {
         this.examples = examples.map(example => new Command(example));
       }
     }
+
+    if (
+      expectsCommand !== undefined &&
+      !SchemaValidator.isBoolean(expectsCommand)
+    ) {
+      const msg = ERROR_MESSAGES.EXPECTS_COMMAND_INVALID;
+      throw new Error(msg);
+    } else if (expectsCommand === true) {
+      this.expectsCommand = true;
+    }
+
+    this.usage = usage;
+    this.arguments = args;
+    this.standard = standard;
   }
 }

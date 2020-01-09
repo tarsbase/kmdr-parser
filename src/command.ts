@@ -11,7 +11,7 @@ const ERROR_MESSAGES = {
     "Command example summary cannot be an empty string"
 };
 
-export class Command extends SchemaValidator implements CommandInterface {
+export class Command implements CommandInterface {
   public command: string;
   public summary: string;
   public description?: string;
@@ -19,16 +19,15 @@ export class Command extends SchemaValidator implements CommandInterface {
   public ast?: string;
 
   constructor(newCommand: CommandInterface) {
-    super();
     const { command, summary, description, output } = newCommand;
 
-    if (super.isEmpty(command)) {
+    if (SchemaValidator.isEmpty(command)) {
       throw new Error(ERROR_MESSAGES.COMMAND_EXAMPLE_COMMAND_EMPTY);
     } else {
       this.command = command;
     }
 
-    if (super.isEmpty(summary)) {
+    if (SchemaValidator.isEmpty(summary)) {
       throw new Error(ERROR_MESSAGES.COMMAND_EXAMPLE_SUMMARY_EMPTY);
     } else {
       this.summary = summary;

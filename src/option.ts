@@ -5,6 +5,7 @@
 import { SchemaValidator } from "./schemaValidator";
 import { OptionSchema } from "./interfaces";
 import OptionSchemaMissingPropertyError from "./errors/optionSchemaMissingPropertyError";
+import { Argument } from ".";
 
 const ERROR_MESSAGES = {
   OPTION_DESCRIPTION_INVALID: "Option description must be a string",
@@ -16,20 +17,27 @@ const ERROR_MESSAGES = {
   OPTION_SUMMARY_EMPTY: `Option summary cannot be empty`
 };
 
-export class Option extends SchemaValidator implements OptionSchema {
+export class Option implements OptionSchema {
   public long?: string[];
   public short?: string[];
   public summary: string = "";
   public description?: string;
   public name?: string;
   public expectsArg?: boolean;
-  public defaultArg?: string | number | boolean;
+  public argument?: Argument;
   private _path?: string[];
 
   constructor(option: OptionSchema, _path?: string[]) {
-    super();
     this._path = _path;
-    const { summary, long, short, description, name, expectsArg } = option;
+    const {
+      argument,
+      summary,
+      long,
+      short,
+      description,
+      name,
+      expectsArg
+    } = option;
 
     if (name !== undefined && typeof name !== "string") {
       const msg = ERROR_MESSAGES.OPTION_NAME_INVALID;
@@ -38,7 +46,7 @@ export class Option extends SchemaValidator implements OptionSchema {
       this.name = name.trim();
     }
 
-    if (!summary || this.isEmpty(summary)) {
+    if (!summary || SchemaValidator.isEmpty(summary)) {
       const msg = ERROR_MESSAGES.OPTION_SUMMARY_EMPTY;
       throw new OptionSchemaMissingPropertyError(
         "summary",
@@ -53,8 +61,12 @@ export class Option extends SchemaValidator implements OptionSchema {
       const msg = ERROR_MESSAGES.OPTION_LONG_SHORT_EMPTY;
       throw new Error(`${msg} at ${this._path && this._path.join(".")}`);
     } else if (
-      (short !== undefined && short !== null && !this.isListOfStrings(short)) ||
-      (long !== undefined && long !== null && !this.isListOfStrings(long))
+      (short !== undefined &&
+        short !== null &&
+        !SchemaValidator.isListOfStrings(short)) ||
+      (long !== undefined &&
+        long !== null &&
+        !SchemaValidator.isListOfStrings(long))
     ) {
       const msg = ERROR_MESSAGES.OPTION_LONG_SHORT_INVALID;
       throw new Error(msg);
@@ -83,6 +95,10 @@ export class Option extends SchemaValidator implements OptionSchema {
       throw new Error(msg);
     } else {
       this.description = description;
+    }
+
+    if (argument) {
+      this.argument = new Argument(argument);
     }
   }
 }

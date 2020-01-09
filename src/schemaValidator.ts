@@ -5,21 +5,20 @@
 import validator from "validator";
 
 export class SchemaValidator {
-  protected constructor() {}
-  isURL(str: string): boolean {
+  public static isURL(str: string): boolean {
     return validator.isURL(str);
   }
 
-  protected isValidName(str: string): boolean {
+  public static isValidName(str: string): boolean {
     const nameRegex: RegExp = new RegExp("^[a-zA-Z0-9-_.]+$");
     return nameRegex.test(str);
   }
 
-  protected isEmpty(str: string): boolean {
+  public static isEmpty(str: string): boolean {
     return str.trim() === "";
   }
 
-  protected isListOfStrings(list: any): boolean {
+  public static  isListOfStrings(list: any): boolean {
     if (!Array.isArray(list)) {
       return false;
     }
@@ -32,7 +31,7 @@ export class SchemaValidator {
     return list.some(item => typeof item === "string");
   }
 
-  protected isBoolean(val: any): boolean {
+  public static isBoolean(val: any): boolean {
     return typeof val === "boolean";
   }
 }

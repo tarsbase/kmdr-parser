@@ -19,13 +19,13 @@ const ERROR_MESSAGES = {
     "Subcommand schema command examples must be an array of examples"
 };
 
-export class Subcommand extends SchemaValidator implements SubcommandSchema {
+export class Subcommand implements SubcommandSchema {
   public name: string = "";
   public summary: string = "";
   public aliases?: string[];
   public description?: string;
   public examples?: Command[];
-  public subcommands?: SubcommandSchema[];
+  public subcommands?: Subcommand[];
   public options?: OptionSchema[];
   public patterns?: string[];
   public _path?: string[];
@@ -36,7 +36,6 @@ export class Subcommand extends SchemaValidator implements SubcommandSchema {
     path: string[] | null = null,
     props: { stickyOptions: boolean } = { stickyOptions: false }
   ) {
-    super();
     const {
       name,
       summary,
@@ -51,10 +50,10 @@ export class Subcommand extends SchemaValidator implements SubcommandSchema {
 
     const { stickyOptions } = props;
 
-    if (!name || this.isEmpty(name)) {
+    if (!name || SchemaValidator.isEmpty(name)) {
       const msg = ERROR_MESSAGES.SUBCOMMAND_NAME_EMPTY;
       throw new Error(msg);
-    } else if (!this.isValidName(name)) {
+    } else if (!SchemaValidator.isValidName(name)) {
       const msg = ERROR_MESSAGES.SUBCOMMAND_NAME_INCOMPATIBLE_CHARACTERS;
       throw new Error(msg);
     } else {
@@ -67,7 +66,7 @@ export class Subcommand extends SchemaValidator implements SubcommandSchema {
       this._path = _path;
     }
 
-    if (!summary || this.isEmpty(summary)) {
+    if (!summary || SchemaValidator.isEmpty(summary)) {
       const msg = ERROR_MESSAGES.SUBCOMMAND_SUMMARY_EMPTY;
       throw new Error(msg);
     } else {
@@ -79,7 +78,7 @@ export class Subcommand extends SchemaValidator implements SubcommandSchema {
     }
 
     if (aliases !== undefined) {
-      if (aliases.length > 0 && !this.isListOfStrings(aliases)) {
+      if (aliases.length > 0 && !SchemaValidator.isListOfStrings(aliases)) {
         const msg = ERROR_MESSAGES.SUBCOMMAND_ALIASES_INVALID;
         throw new Error(msg);
       } else if (aliases.length >= 0) {
@@ -87,7 +86,10 @@ export class Subcommand extends SchemaValidator implements SubcommandSchema {
       }
     }
 
-    if (stickyOptions !== undefined && !this.isBoolean(stickyOptions)) {
+    if (
+      stickyOptions !== undefined &&
+      !SchemaValidator.isBoolean(stickyOptions)
+    ) {
       const msg = ERROR_MESSAGES.SUBCOMMAND_STICKY_OPTIONS_INVALID;
       throw new Error(msg);
     } else {

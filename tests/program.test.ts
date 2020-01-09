@@ -117,7 +117,6 @@ describe("A schema is created when", () => {
       name: "docker-compose",
       summary: "a docker program",
       link: "https://kmdr.sh/",
-      stickyOptions: false,
       subcommands: [
         {
           name: "up",
@@ -143,7 +142,6 @@ describe("A schema is created when", () => {
       name: "docker-compose",
       summary: "a docker program",
       link: "https://kmdr.sh/",
-      stickyOptions: false,
       subcommands: [
         {
           name: "up",

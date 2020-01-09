@@ -2,19 +2,14 @@
  * Copyright 2019 Eddie Ramirez
  */
 
-import {
-  OptionSchema,
-  ProgramSchema,
-  SchemaStats,
-  SubcommandSchema
-} from "./interfaces";
-import { Program } from "./program";
+import { SchemaStats } from "./interfaces";
+import { Program, Subcommand, Option } from ".";
 
 class Schema {
   public static getSubcommand(
     word: string,
-    schema: ProgramSchema | SubcommandSchema
-  ): SubcommandSchema | null {
+    schema: Program | Subcommand
+  ): Subcommand | null {
     if (!schema.subcommands) {
       return null;
     }
@@ -31,11 +26,11 @@ class Schema {
     return subcommandPath.join("-") || "";
   }
 
-  public schema: ProgramSchema;
+  public program: Program;
 
-  constructor(schema: ProgramSchema) {
+  constructor(program: Program) {
     try {
-      this.schema = new Program(schema);
+      this.program = new Program(program);
     } catch (err) {
       throw err;
     }
@@ -50,22 +45,24 @@ class Schema {
   public findOptions(
     word: string,
     path?: string[],
-    limit: number = 1
-  ): OptionSchema[] {
-    if (!this.schema || !this.schema.options) {
+    limit: number = 1,
+    format: string = "all"
+  ): Option[] {
+    if (!this.program) {
       return [];
     }
-    let matches: OptionSchema[] = [];
+
+    let matches: Option[] = [];
     // if searching at root level
-    if (!path || path.length <= 1) {
-      matches = this.matchOptions(word, this.schema.options);
-    } else if (path.length >= 2 && this.schema.subcommands) {
-      const subcommand = this.schema.subcommands.find(
+    if (this.program.options && (!path || path.length <= 1)) {
+      matches = this.matchOptions(word, this.program.options, format);
+    } else if (path && path.length >= 2 && this.program.subcommands) {
+      const subcommand = this.program.subcommands.find(
         subcommand => subcommand.name === path[1]
       );
       if (subcommand) {
         const subPath = path.slice(1);
-        matches = this.findNestedOptions(word, subPath, subcommand);
+        matches = this.findNestedOptions(word, subPath, subcommand, format);
       }
     }
     return matches.slice(0, limit);
@@ -76,18 +73,15 @@ class Schema {
    * @param word the subcommand name
    * @param path the subcommand path where the subcommand is expected to be found
    */
-  public findSubcommand(
-    word: string,
-    path?: string[]
-  ): SubcommandSchema | null {
-    if (!this.schema || !this.schema.subcommands) {
+  public findSubcommand(word: string, path?: string[]): Subcommand | null {
+    if (!this.program || !this.program.subcommands) {
       return null;
     }
 
-    if (this.schema.subcommands && (!path || path.length === 1)) {
-      return Schema.getSubcommand(word, this.schema) || null;
+    if (this.program.subcommands && (!path || path.length === 1)) {
+      return Schema.getSubcommand(word, this.program) || null;
     } else if (path && path.length >= 2) {
-      let currentCmd = Schema.getSubcommand(path[1], this.schema);
+      let currentCmd = Schema.getSubcommand(path[1], this.program);
       for (let i = 1; i < path.length && currentCmd; i++) {
         const currentPath = path[i];
         const nextPath = i === path.length - 1 ? word : path[i + 1];
@@ -118,10 +112,10 @@ class Schema {
 
   public matchSubcommand(
     word: string,
-    subcommands: SubcommandSchema[]
-  ): SubcommandSchema | null {
+    subcommands: Subcommand[]
+  ): Subcommand | null {
     const matches = subcommands.filter(
-      (subcommand: SubcommandSchema) => subcommand.name === word
+      (subcommand: Subcommand) => subcommand.name === word
     );
     if (!matches) {
       return null;
@@ -130,12 +124,16 @@ class Schema {
     return matches[0];
   }
 
-  public takesStickyOptions(): boolean {
-    return this.schema.stickyOptions ? true : false;
+  public get takesStickyOptions(): boolean {
+    return this.program.stickyOptions ? true : false;
+  }
+
+  public get expectsCommand(): boolean {
+    return this.program.expectsCommand ? true : false;
   }
 
   public toJSON() {
-    return JSON.stringify(this.schema);
+    return JSON.stringify(this.program);
   }
 
   public toYAML() {
@@ -147,7 +145,7 @@ class Schema {
 
     const getTotals = (
       acc: SchemaStats,
-      schema?: ProgramSchema | SubcommandSchema
+      schema?: Program | Subcommand
     ): SchemaStats => {
       let localAcc = { ...acc };
 
@@ -172,7 +170,7 @@ class Schema {
       return localAcc;
     };
 
-    return getTotals(tally, this.schema);
+    return getTotals(tally, this.program);
   }
 
   /**
@@ -184,21 +182,22 @@ class Schema {
   private findNestedOptions(
     word: string,
     path: string[],
-    subcommand: SubcommandSchema
-  ): OptionSchema[] {
+    subcommand: Subcommand,
+    format: string = "all"
+  ): Option[] {
     if (!subcommand.options) {
       return [];
     }
 
     if (path.length === 1) {
-      return this.matchOptions(word, subcommand.options);
+      return this.matchOptions(word, subcommand.options, format);
     } else if (subcommand.subcommands) {
       const newSubcommand = subcommand.subcommands.find(
         subcommand => subcommand.name === path[1]
       );
       if (newSubcommand) {
         const subPath = path.slice(1);
-        return this.findNestedOptions(word, subPath, newSubcommand);
+        return this.findNestedOptions(word, subPath, newSubcommand, format);
       }
     }
 
@@ -214,8 +213,8 @@ class Schema {
   private findNestedSubcommand(
     word: string,
     path: string[],
-    subcommand: SubcommandSchema
-  ): SubcommandSchema | null {
+    subcommand: Subcommand
+  ): Subcommand | null {
     if (!subcommand.subcommands) {
       return null;
     }
@@ -235,13 +234,33 @@ class Schema {
     return null;
   }
 
-  private matchOptions(word: string, options: OptionSchema[]): OptionSchema[] {
-    return options.filter((option: OptionSchema) => {
-      const { long, short } = option;
-      if ((long && long.includes(word)) || (short && short.includes(word))) {
-        return true;
-      }
-    });
+  private matchOptions(
+    word: string,
+    options: Option[],
+    format: string = "all"
+  ): Option[] {
+    if (format === "short") {
+      return options.filter((option: Option) => {
+        const { short } = option;
+        if (short && short.includes(word)) {
+          return true;
+        }
+      });
+    } else if (format == "long") {
+      return options.filter((option: Option) => {
+        const { long } = option;
+        if (long && long.includes(word)) {
+          return true;
+        }
+      });
+    } else {
+      return options.filter((option: Option) => {
+        const { long, short } = option;
+        if ((long && long.includes(word)) || (short && short.includes(word))) {
+          return true;
+        }
+      });
+    }
   }
 }
 
