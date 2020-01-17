@@ -2,4 +2,4 @@
 ./tsconfig.json
 ./kmdr.yaml.png
 ./tslint.json
-
+.vscode
