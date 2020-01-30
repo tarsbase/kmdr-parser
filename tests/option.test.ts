@@ -3,44 +3,45 @@
  */
 
 import { Option } from "../src/option";
+import { ERROR_MESSAGES } from "../src/contants";
 
 describe("An Option Schema cannot be created when", () => {
-  test("the summary key is empty", () => {
+  test("the summary field is empty", () => {
     expect(() => {
       const newOption = new Option({
         name: "test",
         summary: "          "
       } as any);
-    }).toThrow(/Property 'summary' missing from/);
+    }).toThrow(ERROR_MESSAGES.FIELD_NOT_STRING);
   });
 
   test("long and short options are missing", () => {
     expect(() => {
       const newOption = new Option({
         name: "test",
-        summary: "short summary"
+        summary: "Short summary"
       } as any);
-    }).toThrow(/must have either a long or short option/);
+    }).toThrow(ERROR_MESSAGES.FIELD_EMPTY);
   });
 
   test("short contains a value that is not a list of string", () => {
     expect(() => {
       const newOption = new Option({
         name: "test",
-        summary: "soemthing",
+        summary: "Soemthing",
         short: "-f"
       } as any);
-    }).toThrow(/long or short must be a list of string/);
+    }).toThrow(ERROR_MESSAGES.FIELD_NOT_ARRAY);
   });
 
   test("long contains a value that is not a list of strings", () => {
     expect(() => {
       const newOption = new Option({
         name: "test",
-        summary: "something",
+        summary: "Something",
         long: 123
       } as any);
-    }).toThrow(/long or short must be a list of string/);
+    }).toThrow(ERROR_MESSAGES.FIELD_NOT_ARRAY);
   });
 
   test("short is valid but long is invalid", () => {
@@ -49,9 +50,9 @@ describe("An Option Schema cannot be created when", () => {
         long: false,
         name: "test",
         short: ["-f"],
-        summary: "a test"
+        summary: "A test"
       } as any);
-    }).toThrow();
+    }).toThrow(ERROR_MESSAGES.FIELD_NOT_ARRAY);
   });
 
   test("long is valid but short is invalid", () => {
@@ -60,9 +61,9 @@ describe("An Option Schema cannot be created when", () => {
         long: ["--something"],
         name: "name",
         short: 12,
-        summary: "summary"
+        summary: "Summary"
       } as any);
-    }).toThrow();
+    }).toThrow(ERROR_MESSAGES.FIELD_NOT_ARRAY);
   });
 
   test("expectsArg contains a non-boolean value", () => {
@@ -71,9 +72,9 @@ describe("An Option Schema cannot be created when", () => {
         expectsArg: "",
         name: "name",
         short: ["-a"],
-        summary: "summary"
+        summary: "Summary"
       } as any);
-    }).toThrow(/expectsArg must be a boolean value/);
+    }).toThrow(ERROR_MESSAGES.FIELD_NOT_BOOLEAN);
   });
 
   test("description contains a value that is not a string", () => {
@@ -82,21 +83,21 @@ describe("An Option Schema cannot be created when", () => {
         description: [1, 2, 3],
         name: "name",
         short: ["-a"],
-        summary: "summary"
+        summary: "Summary"
       } as any);
-    }).toThrow(/description must be a string/);
+    }).toThrow(ERROR_MESSAGES.FIELD_NOT_STRING);
   });
 });
 
 describe("An Option schema is created when", () => {
   test("at least a short option is provided", () => {
-    const option = { name: "name", summary: "summary", short: ["-a"] };
+    const option = { name: "name", summary: "Summary", short: ["-a"] };
     const optionSchema = new Option(option);
     expect(optionSchema).toMatchObject(option);
   });
 
   test("at least a long option is provided", () => {
-    const option = { name: "name", summary: "summary", long: ["--long"] };
+    const option = { name: "name", summary: "Summary", long: ["--long"] };
     const optionSchema = new Option(option);
     expect(optionSchema).toMatchObject(option);
   });
@@ -104,7 +105,7 @@ describe("An Option schema is created when", () => {
   test("long and short options are provided", () => {
     const option = {
       name: "name",
-      summary: "summary",
+      summary: "Ssummary",
       long: ["--long"],
       short: ["-a"]
     };

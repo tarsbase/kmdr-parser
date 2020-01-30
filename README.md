@@ -11,13 +11,13 @@
 ### With `npm`
 
 ```bash
-npm install kmdr-parser
+npm install kmdr-parser -g
 ```
 
 ### With `yarn`
 
 ```bash
-yarn add kmdr-parser
+yarn global add kmdr-parser
 ```
 
 ## Usage

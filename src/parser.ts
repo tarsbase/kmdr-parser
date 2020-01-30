@@ -12,7 +12,7 @@ export class Parser {
   private dirname: string;
   private fileContents: any = {};
 
-  constructor(file: string, options: object) {
+  constructor(file: string) {
     this.filename = path.basename(file);
     this.dirname = path.dirname(file);
 

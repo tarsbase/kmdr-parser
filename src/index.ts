@@ -2,6 +2,7 @@
  * Copyright 2019 Eddie Ramirez
  */
 
+import { Argument } from "./argument";
 import { Command } from "./command";
 import {
   CommandInterface,
@@ -16,6 +17,7 @@ import Schema from "./schema";
 import { Subcommand } from "./subcommand";
 
 export {
+  Argument,
   Command,
   CommandInterface,
   Parser,
