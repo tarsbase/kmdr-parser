@@ -3,7 +3,8 @@
  */
 
 import { SchemaStats } from "./interfaces";
-import { Program, Subcommand, Option } from ".";
+import { Program, Subcommand, Option, ProgramSchema } from ".";
+import WarningMessage from "./warningMessage";
 
 class Schema {
   public static getSubcommand(
@@ -28,7 +29,7 @@ class Schema {
 
   public program: Program;
 
-  constructor(program: Program) {
+  constructor(program: ProgramSchema) {
     try {
       this.program = new Program(program);
     } catch (err) {
@@ -130,6 +131,10 @@ class Schema {
 
   public get expectsCommand(): boolean {
     return this.program.expectsCommand ? true : false;
+  }
+
+  public get warnings(): WarningMessage[] {
+    return this.program._warnings;
   }
 
   public toJSON() {

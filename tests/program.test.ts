@@ -3,67 +3,68 @@
  */
 
 import { Program } from "../src/program";
+import { ERROR_MESSAGES } from "../src/contants";
 
 describe("A Program Schema cannot be created when", () => {
   test('the name key is not provided, a  "Schema name cannot be empty" error is thrown', () => {
     expect(() => {
       new Program({ name: "" } as any);
-    }).toThrowError(/name cannot be empty/);
+    }).toThrowError(/non-empty/);
   });
 
   test('the name "wrong Name" contains incompatible characters, a "Schema name can only have letters..." error is thrown', () => {
     expect(() => {
       new Program({ name: "wrong Name" } as any);
-    }).toThrowError(/name can only have letters, digits, ., - and _/);
+    }).toThrowError(ERROR_MESSAGES.FIELD_NOT_VALID_CHARACTERS);
   });
   test('the summary key is not provided, a "Schema summary cannot be empty" error is thrown', () => {
     expect(() => {
       new Program({ name: "test", summary: "" });
-    }).toThrowError(/summary cannot be empty/);
+    }).toThrowError(ERROR_MESSAGES.FIELD_NOT_STRING);
   });
 
   test('the link is wrong, a "Schema link is invalid" error is thrown', () => {
     expect(() => {
-      new Program({ name: "test", summary: "summary", link: "http/wronglink" });
-    }).toThrowError(/link is invalid/);
+      new Program({ name: "test", summary: "Summary", link: "http/wronglink" });
+    }).toThrowError(ERROR_MESSAGES.FIELD_INVALID_LINK);
   });
 
   test('the stickyOptions is not boolean, "Schema stickyOptions must be of type boolean" error is thrown', () => {
     expect(() => {
       new Program(<any>{
         name: "test",
-        summary: "test",
+        summary: "Test",
         stickyOptions: "saddsa"
       });
-    }).toThrowError(/must be of type boolean/);
+    }).toThrowError(ERROR_MESSAGES.FIELD_NOT_BOOLEAN);
   });
 
   test('the subcommands value is not an array, "Schema subcommands must be an array of subcommands" error is thrown', () => {
     expect(() => {
       new Program(<any>{
         name: "test",
-        summary: "test",
+        summary: "Test",
         subcommands: "wrong value"
       });
-    }).toThrowError(/must be an array of subcommands/);
+    }).toThrowError(ERROR_MESSAGES.FIELD_NOT_ARRAY);
   });
 
   test('the options value is not an array, "Schema options must be an array of options" error is thrown', () => {
     expect(() => {
-      new Program(<any>{ name: "test", summary: "test", options: 12 });
-    }).toThrowError(/must be an array of options/);
+      new Program(<any>{ name: "test", summary: "Test", options: 12 });
+    }).toThrowError(ERROR_MESSAGES.FIELD_NOT_ARRAY);
   });
 
   test('the description value is not a string, "Schema description must be a string" error is thrown', () => {
     expect(() => {
-      new Program(<any>{ name: "test", summary: "test", description: [] });
-    }).toThrowError(/description must be a string/);
+      new Program(<any>{ name: "test", summary: "Test", description: [] });
+    }).toThrowError(ERROR_MESSAGES.FIELD_NOT_STRING);
   });
 });
 
 describe("A schema is created when", () => {
   test("the name and summary are provided", () => {
-    const program = { name: "docker-compose", summary: "a docker program" };
+    const program = { name: "docker-compose", summary: "A docker program" };
     const programSchema = new Program(program);
     expect(programSchema).toMatchObject(program);
   });
@@ -71,7 +72,7 @@ describe("A schema is created when", () => {
   test("a valid link is provided", () => {
     const program = {
       name: "docker-compose",
-      summary: "a docker program",
+      summary: "A docker program",
       link: "https://kmdr.sh/"
     };
     const programSchema = new Program(program);
@@ -81,9 +82,9 @@ describe("A schema is created when", () => {
   test("one option is provided", () => {
     const program = {
       name: "docker-compose",
-      summary: "a docker program",
+      summary: "A docker program",
       link: "https://kmdr.sh/",
-      options: [{ name: "version", short: ["-v"], summary: "shows verssion" }]
+      options: [{ name: "version", short: ["-v"], summary: "Shows verssion" }]
     };
     const programSchema = new Program(program);
     expect(programSchema).toMatchObject(program);
@@ -92,19 +93,19 @@ describe("A schema is created when", () => {
   test("two options are provided", () => {
     const program = {
       name: "docker-compose",
-      summary: "a docker program",
+      summary: "Docker program",
       link: "https://kmdr.sh/",
       options: [
         {
           name: "version",
           short: ["-v"],
-          summary: "shows verssion"
+          summary: "Shows verssion"
         },
         {
           name: "help",
           short: ["-h"],
           long: ["--help"],
-          summary: "displays help"
+          summary: "Displays help"
         }
       ]
     };
@@ -115,19 +116,19 @@ describe("A schema is created when", () => {
   test("one subcommand is provided", () => {
     const program = {
       name: "docker-compose",
-      summary: "a docker program",
+      summary: "A docker program",
       link: "https://kmdr.sh/",
       subcommands: [
         {
           name: "up",
-          summary: "starts or creates containers",
+          summary: "Starts or creates containers",
           aliases: ["create"],
           options: [
             {
               name: "file",
               short: ["-f"],
               long: ["--file"],
-              summary: "sets the file"
+              summary: "Sets the file"
             }
           ]
         }
@@ -140,25 +141,25 @@ describe("A schema is created when", () => {
   test("subcommands with a nested subcommand", () => {
     const program = {
       name: "docker-compose",
-      summary: "a docker program",
+      summary: "A docker program",
       link: "https://kmdr.sh/",
       subcommands: [
         {
           name: "up",
-          summary: "starts or creates containers",
+          summary: "Starts or creates containers",
           aliases: ["create"],
           options: [
             {
               name: "file",
               short: ["-f"],
               long: ["--file"],
-              summary: "sets the file"
+              summary: "Sets the file"
             }
           ],
           subcommands: [
             {
               name: "force",
-              summary: "force creation",
+              summary: "Force creation",
               options: [
                 {
                   name: "all",
@@ -173,19 +174,19 @@ describe("A schema is created when", () => {
         {
           name: "down",
           aliases: ["d"],
-          summary: "stops the containers",
+          summary: "Stops the containers",
           options: [
             {
               name: "destroy",
               short: ["-d"],
               long: ["--destroy"],
-              summary: "destroy the container"
+              summary: "Destroy the container"
             }
           ],
           subcommands: [
             {
               name: "force",
-              summary: "force creation",
+              summary: "Force creation",
               options: [
                 {
                   name: "all",

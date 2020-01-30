@@ -1,40 +1,30 @@
 import { Command } from "./command";
-import { ProgramSchema, ArgumentInterface } from "./interfaces";
+import { ERROR_MESSAGES, WARNING_MESSAGES } from "./contants";
+import { InvalidSchemaField, MissingSchemaField } from "./errors/schemaError";
+import { ArgumentInterface, ProgramSchema } from "./interfaces";
 import { Option } from "./option";
-import { SchemaValidator } from "./schemaValidator";
+import SchemaValidator from "./schemaValidator";
 import { Subcommand } from "./subcommand";
-
-const ERROR_MESSAGES = {
-  DESCRIPTION_INVALID: "Schema description must be a string",
-  EXAMPLES_INVALID: "Schema command examples must be an array of examples",
-  LINK_INVALID: "Schema link is invalid",
-  NAME_EMPTY: "Schema name cannot be empty",
-  NAME_INCOMPATIBLE_CHARACTERS:
-    "Schema name can only have letters, digits, ., - and _",
-  OPTIONS_INVALID: "Schema options must be an array of options",
-  STICKY_OPTIONS_INVALID: "Schema stickyOptions must be of type boolean",
-  SUBCOMMANDS_INVALID: "Schema subcommands must be an array of subcommands",
-  SUMMARY_EMPTY: "Schema summary cannot be empty",
-  EXPECTS_COMMAND_INVALID: "Schema expectsCommand must be of type boolean",
-  USAGE_INVALID: "Schema usage must be a string"
-};
+import WarningMessage from "./warningMessage";
 
 export class Program implements ProgramSchema {
-  public name: string = "";
-  public summary: string = "";
-  public description?: string;
-  public version?: string;
-  public locale?: string;
-  public subcommands?: Subcommand[];
-  public options?: Option[];
-  public link?: string;
-  public patterns?: string[];
-  public stickyOptions?: boolean;
-  public examples?: Command[];
-  public expectsCommand?: boolean;
-  public usage?: string;
-  public arguments?: ArgumentInterface[];
-  public standard?: string;
+  public readonly name: string = "";
+  public readonly summary: string = "";
+  public readonly description?: string;
+  public readonly version?: string;
+  public readonly locale?: string;
+  public readonly subcommands?: Subcommand[];
+  public readonly options?: Option[];
+  public readonly link?: string;
+  public readonly patterns?: string[];
+  public readonly stickyOptions?: boolean;
+  public readonly examples?: Command[];
+  public readonly expectsCommand?: boolean;
+  public readonly usage?: string;
+  public readonly arguments?: ArgumentInterface[];
+  public readonly standard?: string;
+  private readonly _path: string[];
+  public readonly _warnings: WarningMessage[] = [];
 
   constructor(program: ProgramSchema) {
     const {
@@ -55,27 +45,72 @@ export class Program implements ProgramSchema {
     } = program;
 
     if (!name || name.trim() === "") {
-      const msg = ERROR_MESSAGES.NAME_EMPTY;
-      throw new Error(msg);
+      throw new MissingSchemaField("Program", "name");
     } else if (!SchemaValidator.isValidName(name)) {
-      const msg = ERROR_MESSAGES.NAME_INCOMPATIBLE_CHARACTERS;
-      throw new Error(msg);
-    } else {
-      this.name = name.trim();
+      throw new InvalidSchemaField(
+        "Program",
+        "name",
+        ERROR_MESSAGES.FIELD_NOT_VALID_CHARACTERS,
+        "critical",
+        [],
+        this
+      );
     }
+    this.name = name.trim();
+    this._path = [name];
 
-    if (!summary || summary.trim() === "") {
-      const msg = ERROR_MESSAGES.SUMMARY_EMPTY;
-      throw new Error(msg);
-    } else {
-      this.summary = summary;
+    if (!summary || SchemaValidator.isEmpty(summary)) {
+      throw new InvalidSchemaField(
+        "Program",
+        "summary",
+        ERROR_MESSAGES.FIELD_NOT_STRING,
+        "critical",
+        this._path,
+        this
+      );
     }
+    if (SchemaValidator.isLongerThan(summary, 120)) {
+      const warningMsg = new WarningMessage(
+        "Program",
+        "summary",
+        WARNING_MESSAGES.FIELD_TOO_LONG,
+        summary,
+        this._path
+      );
+      this._warnings.push(warningMsg);
+    }
+    if (!SchemaValidator.endsWithLetter(summary)) {
+      const warningMsg = new WarningMessage(
+        "Program",
+        "summary",
+        WARNING_MESSAGES.FIELD_ENDS_WITH_NON_LETTER,
+        summary,
+        this._path
+      );
+      this._warnings.push(warningMsg);
+    }
+    if (!SchemaValidator.isCapitalized(summary)) {
+      const warningMsg = new WarningMessage(
+        "Program",
+        "summary",
+        WARNING_MESSAGES.FIELD_NOT_CAPITALIZED,
+        summary,
+        this._path
+      );
+    }
+    this.summary = summary;
 
     if (!description) {
       this.description = "";
     } else if (typeof description !== "string") {
-      const msg = ERROR_MESSAGES.DESCRIPTION_INVALID;
-      throw new Error(msg);
+      throw new InvalidSchemaField(
+        "Program",
+        "description",
+        ERROR_MESSAGES.FIELD_NOT_STRING,
+        "critical",
+        this._path,
+        this
+      );
     } else {
       this.description = description.trim();
     }
@@ -89,8 +124,14 @@ export class Program implements ProgramSchema {
     if (!link) {
       this.link = "";
     } else if (!SchemaValidator.isURL(link)) {
-      const msg = ERROR_MESSAGES.LINK_INVALID;
-      throw new Error(msg);
+      throw new InvalidSchemaField(
+        "Program",
+        "link",
+        ERROR_MESSAGES.FIELD_INVALID_LINK,
+        "critical",
+        this._path,
+        this
+      );
     } else {
       this.link = link.trim();
     }
@@ -105,36 +146,70 @@ export class Program implements ProgramSchema {
       stickyOptions !== undefined &&
       !SchemaValidator.isBoolean(stickyOptions)
     ) {
-      const msg = ERROR_MESSAGES.STICKY_OPTIONS_INVALID;
-      throw new Error(msg);
+      throw new InvalidSchemaField(
+        "Program",
+        "stickyOptions",
+        ERROR_MESSAGES.FIELD_NOT_BOOLEAN,
+        "critical",
+        this._path,
+        this
+      );
     } else if (stickyOptions === true) {
       this.stickyOptions = true;
     }
 
     if (subcommands !== undefined) {
       if (!Array.isArray(subcommands)) {
-        const msg = ERROR_MESSAGES.SUBCOMMANDS_INVALID;
-        throw new Error(msg);
-      } else {
-        this.subcommands = subcommands.map(
-          subcommand => new Subcommand(subcommand, [this.name])
+        throw new InvalidSchemaField(
+          "Program",
+          "subcommands",
+          ERROR_MESSAGES.FIELD_NOT_ARRAY,
+          "critical",
+          this._path,
+          this
         );
+      } else {
+        this.subcommands = subcommands.map(subcommand => {
+          const newSubcommand = new Subcommand(subcommand, [this.name]);
+          if (newSubcommand.totalWarnings > 0) {
+            this._warnings.push(...newSubcommand._warnings);
+          }
+          return newSubcommand;
+        });
       }
     }
 
     if (options !== undefined) {
       if (!Array.isArray(options)) {
-        const msg = ERROR_MESSAGES.OPTIONS_INVALID;
-        throw new Error(msg);
+        throw new InvalidSchemaField(
+          "Program",
+          "options",
+          ERROR_MESSAGES.FIELD_NOT_ARRAY,
+          "critical",
+          this._path,
+          this
+        );
       } else {
-        this.options = options.map(option => new Option(option));
+        this.options = options.map(option => {
+          const newOption = new Option(option, [this.name]);
+          if (newOption.totalWarnings > 0) {
+            this._warnings.push(...newOption._warnings);
+          }
+          return newOption;
+        });
       }
     }
 
     if (examples !== undefined) {
       if (!Array.isArray(examples)) {
-        const msg = ERROR_MESSAGES.EXAMPLES_INVALID;
-        throw new Error(msg);
+        throw new InvalidSchemaField(
+          "Program",
+          "examples",
+          ERROR_MESSAGES.FIELD_NOT_ARRAY,
+          "critical",
+          this._path,
+          this
+        );
       } else {
         this.examples = examples.map(example => new Command(example));
       }
@@ -144,8 +219,14 @@ export class Program implements ProgramSchema {
       expectsCommand !== undefined &&
       !SchemaValidator.isBoolean(expectsCommand)
     ) {
-      const msg = ERROR_MESSAGES.EXPECTS_COMMAND_INVALID;
-      throw new Error(msg);
+      throw new InvalidSchemaField(
+        "Program",
+        "expectsCommand",
+        ERROR_MESSAGES.FIELD_NOT_BOOLEAN,
+        "critical",
+        this._path,
+        this
+      );
     } else if (expectsCommand === true) {
       this.expectsCommand = true;
     }
@@ -153,5 +234,9 @@ export class Program implements ProgramSchema {
     this.usage = usage;
     this.arguments = args;
     this.standard = standard;
+  }
+
+  get totalWarnings() {
+    return this._warnings.length;
   }
 }

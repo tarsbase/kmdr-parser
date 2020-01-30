@@ -3,7 +3,7 @@
  */
 
 import { CommandInterface } from "./interfaces";
-import { SchemaValidator } from "./schemaValidator";
+import SchemaValidator from "./schemaValidator";
 
 const ERROR_MESSAGES = {
   COMMAND_EXAMPLE_COMMAND_EMPTY: "Command example cannot be an empty string",

@@ -8,7 +8,7 @@ describe("A Schema can be created when", () => {
   test("a name a summary are provided", () => {
     const schema = {
       name: "kmdr",
-      summary: "summary"
+      summary: "Summary"
     };
 
     const newSchema = new Schema(schema);
@@ -26,7 +26,7 @@ describe("The kmdr program", () => {
       subcommands: [
         {
           name: "test",
-          summary: "subcommand test"
+          summary: "Subcommand test"
         },
         {
           name: "uno",
@@ -36,19 +36,19 @@ describe("The kmdr program", () => {
               subcommands: [
                 {
                   name: "tres",
-                  summary: "subcommand tres"
+                  summary: "Subcommand tres"
                 }
               ],
-              summary: "subcommand dos"
+              summary: "Subcommand dos"
             }
           ],
-          summary: "subcommand uno"
+          summary: "Subcommand uno"
         }
       ],
       summary: "Explain commands",
       examples: [
         {
-          summary: "example command",
+          summary: "Example command",
           command: "kmdr uno"
         }
       ]
