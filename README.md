@@ -29,19 +29,30 @@ $ kmdr-parser -h
 Usage: kmdr-parser [options] <file> [files...]
 
 Options:
-  -v, --version  out the current version
-  -s, --show-summary  Show a summary of subcommands and options in a schema
-  -h, --help     output usage information
+  -v, --version            Output the current version
+  -l, --log-level <level>  Set the log level (default: "info")
+  -h, --help               output usage information
 ```
 
 #### Validating a schema
 
 ```bash
-$ kmdr-parser -s schemas/kmdr.json schemas/git.json
-The program schema schemas/kmdr.json is valid!
-{ options: 1, subcommands: 2 }
-The program schema schemas/git.json is valid!
-{ options: 684, subcommands: 20 }
+$ kmdr-parser examples/en/kmdr.yaml
+[INFO] Opening file examples/en/kmdr.yaml...
+[INFO] The schema examples/en/kmdr.yaml is VALID! It contains { options: 1, subcommands: 2, examples: 0 }
+```
+
+The CLI also takes multiple file names to validate
+
+```bash
+$ kmdr-parser examples/en/kmdr.yaml
+[INFO] Opening file examples/en/kmdr.yaml...
+[INFO] The schema examples/en/kmdr.yaml is VALID! It contains { options: 1, subcommands: 2, examples: 0 }
+[INFO] Opening file examples/en/kmdr.yaml...
+[INFO] The schema examples/en/kmdr.yaml is VALID! It contains { options: 1, subcommands: 2, examples: 0 }
+[INFO] Opening file examples/en/rmdir.yaml...
+[WARN] The schema examples/en/rmdir.yaml is VALID, but it has 1 warning(s)!
+[WARN] Option field "summary" at path [ 'rmdir' ]: Field must end with a letter character (a-z) "Remove DIRECTORY and its ancestors; e.g., 'rmdir -p a/b/c' is similar to 'rmdir a/b/c a/b a'"
 ```
 
 ### API
