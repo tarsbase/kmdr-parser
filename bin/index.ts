@@ -42,7 +42,11 @@ class KmdrParserCli {
 
         if (schema.warnings.length > 0) {
           this.logger.warn(
-            `The schema ${name} is VALID, but it has ${schema.warnings.length} warning(s)!`
+            `The schema ${name} is VALID, but it has ${
+              schema.warnings.length
+            } warning(s)! It contains ${util.inspect(schema.stats, {
+              colors: true
+            })}`
           );
 
           for (const warningMsg of schema.warnings) {
