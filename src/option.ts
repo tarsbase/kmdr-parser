@@ -8,7 +8,6 @@ import { InvalidSchemaField, MissingSchemaField } from "./errors/schemaError";
 import { OptionSchema } from "./interfaces";
 import SchemaValidator from "./schemaValidator";
 import WarningMessage from "./warningMessage";
-import util from "util";
 import log4js from "log4js";
 
 export class Option implements OptionSchema {
