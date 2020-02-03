@@ -11,6 +11,8 @@ import WarningMessage from "./warningMessage";
 import log4js from "log4js";
 
 export class Option implements OptionSchema {
+  public readonly _path?: string[];
+  public readonly _warnings: WarningMessage[] = [];
   public readonly defaultValue?: string | number | boolean;
   public readonly description?: string;
   public readonly expectsArg?: boolean;
@@ -20,9 +22,7 @@ export class Option implements OptionSchema {
   public readonly short?: string[];
   public readonly summary: string = "";
   public readonly valueType?: string;
-  public readonly _warnings: WarningMessage[] = [];
 
-  private readonly _path: string[];
   private logger: log4js.Logger;
 
   constructor(option: OptionSchema, path: string[] = []) {

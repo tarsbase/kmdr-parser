@@ -5,10 +5,11 @@
 import { ArgumentSchema } from "./interfaces";
 
 export class Argument implements ArgumentSchema {
-  public summary: string = "";
-  public description?: string;
-  public name: string;
-  public variadic?: boolean;
+  public readonly _path?: string[];
+  public readonly summary: string = "";
+  public readonly description?: string;
+  public readonly name: string;
+  public readonly variadic?: boolean;
 
   constructor(argument: ArgumentSchema) {
     const { summary, description, name, variadic } = argument;

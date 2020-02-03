@@ -13,17 +13,18 @@ import util from "util";
 import log4js from "log4js";
 
 export class Subcommand implements SubcommandSchema {
-  public readonly name: string = "";
-  public readonly summary: string = "";
+  public readonly _warnings: WarningMessage[] = [];
+  public readonly _path?: string[];
   public readonly aliases?: string[];
   public readonly description?: string;
   public readonly examples?: Command[];
-  public readonly subcommands?: Subcommand[];
+  public readonly name: string = "";
   public readonly options?: Option[];
   public readonly patterns?: string[];
-  public readonly _path: string[];
   public readonly stickyOptions?: boolean;
-  public _warnings: WarningMessage[] = [];
+  public readonly subcommands?: Subcommand[];
+  public readonly summary: string = "";
+
   private logger: log4js.Logger;
 
   constructor(
