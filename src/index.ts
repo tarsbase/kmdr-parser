@@ -5,10 +5,11 @@
 import { Argument } from "./argument";
 import { Command } from "./command";
 import {
-  CommandInterface,
+  CommandSchema,
   OptionSchema,
   ProgramSchema,
-  SubcommandSchema
+  SubcommandSchema,
+  ArgumentSchema
 } from "./interfaces";
 import { Option } from "./option";
 import { Parser } from "./parser";
@@ -18,8 +19,9 @@ import { Subcommand } from "./subcommand";
 
 export {
   Argument,
+  ArgumentSchema,
   Command,
-  CommandInterface,
+  CommandSchema,
   Parser,
   Program,
   Option,
