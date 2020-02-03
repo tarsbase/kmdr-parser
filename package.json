@@ -1,6 +1,6 @@
 {
   "name": "kmdr-parser",
-  "version": "2.1.0-2",
+  "version": "2.1.0-3",
   "description": "The parser for kmdr specs in YAML or JSON format",
   "main": "dist/src/index.js",
   "repository": "https://github.com/ediardo/kmdr-parser.git",
