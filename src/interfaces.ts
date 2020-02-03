@@ -1,31 +1,27 @@
-import { Argument } from ".";
-
 /**
  * Copyright 2019 Eddie Ramirez
  *
  * Interface to construct ProgramSchema object
  */
 
-export interface ArgumentInterface {
+export interface ArgumentSchema {
   name: string;
   summary: string;
   description?: string;
-  type?: string;
-  default?: string;
+  variadic?: boolean;
 }
 
 export interface ProgramSchema {
-  arguments?: ArgumentInterface[];
+  args?: ArgumentSchema[];
   description?: string;
   environment?: EnvironmentSchema[];
-  examples?: CommandInterface[];
+  examples?: CommandSchema[];
   expectsCommand?: boolean;
   link?: string;
   locale?: string;
   name: string;
   options?: OptionSchema[];
   platforms?: string[];
-  standard?: string;
   stickyOptions?: boolean;
   subcommands?: SubcommandSchema[];
   summary: string;
@@ -37,7 +33,7 @@ export interface SubcommandSchema {
   _path?: string[];
   aliases?: string[];
   description?: string;
-  examples?: CommandInterface[];
+  examples?: CommandSchema[];
   name: string;
   options?: OptionSchema[];
   patterns?: string[];
@@ -52,16 +48,17 @@ export interface EnvironmentSchema {
 }
 
 export interface OptionSchema {
-  argument?: Argument;
+  defaultValue?: string | number | boolean;
   description?: string;
   expectsArg?: boolean;
+  expectsValue?: boolean;
   id?: number;
   long?: string[];
   name?: string;
   section?: string;
   short?: string[];
-  source?: string;
   summary: string;
+  valueType?: string;
 }
 
 export interface SchemaStats {
@@ -70,7 +67,7 @@ export interface SchemaStats {
   examples: number;
 }
 
-export interface CommandInterface {
+export interface CommandSchema {
   ast?: string;
   summary: string;
   command: string;

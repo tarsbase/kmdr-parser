@@ -1,47 +1,48 @@
 import { Command } from "./command";
 import { ERROR_MESSAGES, WARNING_MESSAGES } from "./contants";
 import { InvalidSchemaField, MissingSchemaField } from "./errors/schemaError";
-import { ArgumentInterface, ProgramSchema } from "./interfaces";
+import { ProgramSchema } from "./interfaces";
 import { Option } from "./option";
 import SchemaValidator from "./schemaValidator";
 import { Subcommand } from "./subcommand";
 import WarningMessage from "./warningMessage";
+import { Argument } from ".";
 
 export class Program implements ProgramSchema {
-  public readonly name: string = "";
-  public readonly summary: string = "";
+  public readonly _warnings: WarningMessage[] = [];
+  public readonly args?: Argument[];
   public readonly description?: string;
-  public readonly version?: string;
-  public readonly locale?: string;
-  public readonly subcommands?: Subcommand[];
-  public readonly options?: Option[];
-  public readonly link?: string;
-  public readonly patterns?: string[];
-  public readonly stickyOptions?: boolean;
   public readonly examples?: Command[];
   public readonly expectsCommand?: boolean;
-  public readonly usage?: string;
-  public readonly arguments?: ArgumentInterface[];
+  public readonly link?: string;
+  public readonly locale?: string;
+  public readonly name: string = "";
+  public readonly options?: Option[];
+  public readonly patterns?: string[];
   public readonly standard?: string;
+  public readonly stickyOptions?: boolean;
+  public readonly subcommands?: Subcommand[];
+  public readonly summary: string = "";
+  public readonly usage?: string;
+  public readonly version?: string;
+
   private readonly _path: string[];
-  public readonly _warnings: WarningMessage[] = [];
 
   constructor(program: ProgramSchema) {
     const {
-      name,
-      summary,
+      args,
       description,
-      version,
-      locale,
-      subcommands,
-      options,
-      link,
-      stickyOptions,
       examples,
       expectsCommand,
+      link,
+      locale,
+      name,
+      options,
+      stickyOptions,
+      subcommands,
+      summary,
       usage,
-      arguments: args,
-      standard
+      version
     } = program;
 
     if (!name || name.trim() === "") {
@@ -231,9 +232,20 @@ export class Program implements ProgramSchema {
       this.expectsCommand = true;
     }
 
-    this.usage = usage;
-    this.arguments = args;
-    this.standard = standard;
+    if (args !== undefined) {
+      if (!Array.isArray(args)) {
+        throw new InvalidSchemaField(
+          "Program",
+          "args",
+          ERROR_MESSAGES.FIELD_NOT_ARRAY,
+          "critical",
+          this._path,
+          this
+        );
+      } else {
+        this.args = args.map(arg => new Argument(arg));
+      }
+    }
   }
 
   get totalWarnings() {

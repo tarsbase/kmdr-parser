@@ -3,18 +3,19 @@
  */
 
 import { Command } from "../src/command";
+import { ERROR_MESSAGES } from "../src/contants";
 
 describe("Cannot create a command example if", () => {
   test("Summary is an empty string", () => {
     expect(() => {
       const newCommand = new Command({ summary: "", command: "asdf" });
-    }).toThrowError("Command example summary cannot be an empty string");
+    }).toThrowError(ERROR_MESSAGES.FIELD_EMPTY);
   });
 
   test("command is an empty string", () => {
     expect(() => {
       const newCommand = new Command({ summary: "test", command: "" } as any);
-    }).toThrowError("Command example cannot be an empty string");
+    }).toThrowError(ERROR_MESSAGES.FIELD_EMPTY);
   });
 });
 

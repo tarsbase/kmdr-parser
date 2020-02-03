@@ -2,19 +2,20 @@
  * Copyright 2019 Eddie Ramirez
  */
 
-import { ArgumentInterface } from "./interfaces";
+import { ArgumentSchema } from "./interfaces";
 
-export class Argument implements ArgumentInterface {
-  public summary: string = "";
-  public description?: string;
-  public name: string;
-  public type?: string;
-  public default?: string;
+export class Argument implements ArgumentSchema {
+  public readonly _path?: string[];
+  public readonly summary: string = "";
+  public readonly description?: string;
+  public readonly name: string;
+  public readonly variadic?: boolean;
 
-  constructor(arg: ArgumentInterface) {
-    this.summary = arg.summary;
-    this.name = arg.name;
-    this.type = arg.type;
-    this.default = arg.default;
+  constructor(argument: ArgumentSchema) {
+    const { summary, description, name, variadic } = argument;
+    this.summary = summary;
+    this.name = name;
+    this.description = description;
+    this.variadic = variadic;
   }
 }

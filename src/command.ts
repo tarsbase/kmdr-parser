@@ -2,35 +2,48 @@
  * Copyright 2019 Eddie Ramirez
  */
 
-import { CommandInterface } from "./interfaces";
+import { CommandSchema } from "./interfaces";
+import { ERROR_MESSAGES } from "./contants";
 import SchemaValidator from "./schemaValidator";
+import log4js from "log4js";
+import { InvalidSchemaField } from "./errors/schemaError";
 
-const ERROR_MESSAGES = {
-  COMMAND_EXAMPLE_COMMAND_EMPTY: "Command example cannot be an empty string",
-  COMMAND_EXAMPLE_SUMMARY_EMPTY:
-    "Command example summary cannot be an empty string"
-};
+export class Command implements CommandSchema {
+  public readonly command: string;
+  public readonly summary: string;
+  public readonly description?: string;
+  public readonly output?: string;
+  private readonly _path: string[];
+  private logger: log4js.Logger;
 
-export class Command implements CommandInterface {
-  public command: string;
-  public summary: string;
-  public description?: string;
-  public output?: string;
-  public ast?: string;
-
-  constructor(newCommand: CommandInterface) {
+  constructor(newCommand: CommandSchema, path: string[] = []) {
     const { command, summary, description, output } = newCommand;
+    this.logger = log4js.getLogger();
+    this._path = path;
 
-    if (SchemaValidator.isEmpty(command)) {
-      throw new Error(ERROR_MESSAGES.COMMAND_EXAMPLE_COMMAND_EMPTY);
-    } else {
-      this.command = command;
+    if (!command || SchemaValidator.isEmpty(command)) {
+      throw new InvalidSchemaField(
+        "Command",
+        "command",
+        ERROR_MESSAGES.FIELD_EMPTY,
+        "critical",
+        this._path,
+        this
+      );
     }
+    this.command = command;
 
     if (SchemaValidator.isEmpty(summary)) {
-      throw new Error(ERROR_MESSAGES.COMMAND_EXAMPLE_SUMMARY_EMPTY);
-    } else {
-      this.summary = summary;
+      throw new InvalidSchemaField(
+        "Command",
+        "command",
+        ERROR_MESSAGES.FIELD_EMPTY,
+        "critical",
+        this._path,
+        this
+      );
     }
+
+    this.summary = summary;
   }
 }

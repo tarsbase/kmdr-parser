@@ -11,29 +11,24 @@ import WarningMessage from "./warningMessage";
 import log4js from "log4js";
 
 export class Option implements OptionSchema {
+  public readonly _path?: string[];
+  public readonly _warnings: WarningMessage[] = [];
+  public readonly defaultValue?: string | number | boolean;
+  public readonly description?: string;
+  public readonly expectsArg?: boolean;
+  public readonly expectsValue?: boolean;
   public readonly long?: string[];
+  public readonly name?: string;
   public readonly short?: string[];
   public readonly summary: string = "";
-  public readonly description?: string;
-  public readonly name?: string;
-  public readonly expectsArg?: boolean;
-  public readonly argument?: Argument;
-  private readonly _path: string[];
-  public readonly _warnings: WarningMessage[] = [];
+  public readonly valueType?: string;
+
   private logger: log4js.Logger;
 
   constructor(option: OptionSchema, path: string[] = []) {
     this._path = path;
     this.logger = log4js.getLogger();
-    const {
-      argument,
-      summary,
-      long,
-      short,
-      description,
-      name,
-      expectsArg
-    } = option;
+    const { summary, long, short, description, name, expectsArg } = option;
 
     if (name !== undefined && typeof name !== "string") {
       // todo
@@ -42,6 +37,7 @@ export class Option implements OptionSchema {
     }
 
     if (!summary || SchemaValidator.isEmpty(summary)) {
+      this.logger.debug("Validating Option Schema summary field");
       throw new InvalidSchemaField(
         "Option",
         "summary",
@@ -130,9 +126,9 @@ export class Option implements OptionSchema {
         this._path,
         this
       );
-    } else {
-      this.expectsArg = expectsArg;
     }
+    this.expectsArg = expectsArg;
+    this.expectsValue = expectsArg;
 
     if (
       description !== undefined &&
@@ -146,13 +142,9 @@ export class Option implements OptionSchema {
         "critical",
         this._path
       );
-    } else {
-      this.description = description;
     }
 
-    if (argument) {
-      this.argument = new Argument(argument);
-    }
+    this.description = description;
   }
 
   get totalWarnings() {
