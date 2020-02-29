@@ -75,7 +75,7 @@ export class Subcommand implements SubcommandSchema {
         this._path
       );
     }
-    if (SchemaValidator.isLongerThan(summary, 120)) {
+    if (SchemaValidator.isLongerThan(summary, 160)) {
       const warningMsg = new WarningMessage(
         "Subcommand",
         "summary",

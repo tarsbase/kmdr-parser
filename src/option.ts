@@ -47,7 +47,7 @@ export class Option implements OptionSchema {
         this
       );
     }
-    if (SchemaValidator.isLongerThan(summary, 120)) {
+    if (SchemaValidator.isLongerThan(summary, 160)) {
       const warningMsg = new WarningMessage(
         "Option",
         "summary",

@@ -70,7 +70,7 @@ export class Program implements ProgramSchema {
         this
       );
     }
-    if (SchemaValidator.isLongerThan(summary, 120)) {
+    if (SchemaValidator.isLongerThan(summary, 160)) {
       const warningMsg = new WarningMessage(
         "Program",
         "summary",
