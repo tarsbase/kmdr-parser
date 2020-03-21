@@ -10,7 +10,7 @@ export default class SchemaValidator {
   }
 
   public static isValidName(str: string): boolean {
-    const nameRegex: RegExp = new RegExp("^[a-zA-Z0-9-_.]+$");
+    const nameRegex: RegExp = new RegExp("^[a-zA-Z0-9-_.:]+$");
     return nameRegex.test(str);
   }
 
