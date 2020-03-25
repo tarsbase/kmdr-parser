@@ -7,6 +7,17 @@ import { Program, Subcommand, Option, ProgramSchema } from ".";
 import WarningMessage from "./warningMessage";
 
 class Schema {
+  public static getOptionFormat(
+    text: string,
+    option: Option
+  ): string | undefined {
+    if (option.long?.includes(text)) {
+      return "long";
+    } else if (option.short?.includes(text)) {
+      return "short";
+    }
+  }
+
   public static getSubcommand(
     word: string,
     schema: Program | Subcommand
