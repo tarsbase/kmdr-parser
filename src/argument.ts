@@ -10,12 +10,16 @@ export class Argument implements ArgumentSchema {
   public readonly description?: string;
   public readonly name: string;
   public readonly variadic?: boolean;
+  public readonly value: string;
+  public readonly meta?: object;
 
   constructor(argument: ArgumentSchema) {
-    const { summary, description, name, variadic } = argument;
+    const { summary, description, meta, name, variadic, value } = argument;
     this.summary = summary;
+    this.meta = meta;
     this.name = name;
     this.description = description;
+    this.value = value;
     this.variadic = variadic;
   }
 }

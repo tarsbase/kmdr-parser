@@ -4,10 +4,27 @@
  * Interface to construct ProgramSchema object
  */
 
+export interface GitHubRepo {
+  createdAt: string;
+  description: string;
+  forks: number;
+  homepage: string;
+  issues: number;
+  name: string;
+  owner: string;
+  size: number;
+  stars: number;
+  updatedAt: string;
+  url: string;
+}
+
 export interface ArgumentSchema {
+  description?: string;
+  label?: string;
+  meta?: object;
   name: string;
   summary: string;
-  description?: string;
+  value: string;
   variadic?: boolean;
 }
 
